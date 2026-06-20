@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WHO MAFIAS | Internal Tactical Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,700&family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root { --mafia-red: #ff0000; --mafia-gold: #c5a059; --bg-black: #020202; --ui-cyan: #00f2ff; }
+        body { background-color: var(--bg-black); color: #d1d5db; font-family: 'Inter', sans-serif; overflow-x: hidden; margin: 0; padding: 0; }
+        .font-mafia { font-family: 'Playfair Display', serif; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .gold-text { color: var(--mafia-gold); }
+
+        /* UI/UX Advanced Cards */
+        .glass-panel { background: rgba(10, 10, 10, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255, 0, 0, 0.1); border-radius: 4px; position: relative; overflow: hidden; }
+        .neon-border { box-shadow: 0 0 15px rgba(255, 0, 0, 0.2), inset 0 0 5px rgba(255, 0, 0, 0.1); }
+        
+        /* Input UX */
+        .mafia-input { width: 100%; background: #000; border-bottom: 2px solid #222; padding: 15px; color: white; font-size: 11px; font-family: 'JetBrains Mono'; outline: none; transition: 0.4s; border-radius: 0; }
+        .mafia-input:focus { border-bottom-color: var(--mafia-red); background: rgba(255, 0, 0, 0.05); }
+
+        /* Tactical Animations */
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
+        .scan-line { width: 100%; height: 4px; background: rgba(255, 0, 0, 0.6); position: absolute; z-index: 100; animation: scan 3s linear infinite; box-shadow: 0 0 20px red; pointer-events: none; }
+        
+        @keyframes radar-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .radar-sweep { position: absolute; inset: -50%; background: conic-gradient(from 0deg, transparent, rgba(255, 0, 0, 0.2)); animation: radar-spin 4s linear infinite; border-radius: 50%; }
+
+        /* Heartbeat Pulse for Admin Message */
+        @keyframes heartbeat { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+        .hazard-box { animation: heartbeat 1.5s infinite; border: 1px solid var(--mafia-red); background: linear-gradient(45deg, rgba(139,0,0,0.2), transparent); }
+
+        /* Feature Card UX */
+        .feature-locked { filter: grayscale(1); opacity: 0.4; cursor: not-allowed; transition: 0.5s; position: relative; }
+        .feature-locked:hover { opacity: 0.6; filter: grayscale(0.5); }
+        .access-denied-tag { position: absolute; top: 10px; right: 10px; color: red; font-size: 8px; font-weight: 900; border: 1px solid red; padding: 2px 5px; }
+
+        .hidden { display: none !important; }
+        * { -webkit-user-select: none; user-select: none; }
+        input, textarea { user-select: text; }
+    </style>
+</head>
+<body class="p-2 md:p-8 lg:p-12">
+
+    <!-- ================= 1. FRONT ENTRY SYSTEM (UX Optimized) ================= -->
+    <div id="entry-gate" class="max-w-7xl mx-auto space-y-12">
+        <header class="text-center py-6">
+            <h1 class="font-mafia text-6xl md:text-9xl text-white italic uppercase tracking-tighter">WHO <span class="gold-text">MAFIAS</span></h1>
+            <p class="text-red-700 font-mono text-xs tracking-[1em] uppercase animate-pulse">Internal_Protocol_Access</p>
+        </header>
+
+        <!-- PERSISTENT ID SUCCESS BOX -->
+        <div id="id-sticky-reminder" class="hidden max-w-5xl mx-auto p-12 glass-panel neon-border text-center">
+            <div class="absolute top-0 right-0 bg-red-600 px-4 py-1 text-[8px] text-white font-black uppercase">IDENTITY_STORED</div>
+            <h2 class="text-white text-3xl font-black uppercase mb-4 italic">Operative Unit Logged</h2>
+            <div class="flex flex-col md:flex-row items-center justify-center gap-6">
+                <div class="px-12 py-6 bg-black border border-red-900/50 shadow-[0_0_30px_rgba(255,0,0,0.1)]">
+                    <span id="reminder-id-val" class="text-5xl md:text-7xl font-black text-white font-mono tracking-tighter gold-text"></span>
+                </div>
+                <button onclick="copyID()" class="bg-red-700 hover:bg-red-600 text-white font-black px-10 py-6 text-xs tracking-[0.5em] transition-all">
+                    <i class="fas fa-copy mr-2"></i> COPY_ID
+                </button>
+            </div>
+            <p id="copy-msg" class="text-green-500 text-[10px] mt-6 font-mono uppercase hidden">Biometric ID Synced to Clipboard</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            <!-- UI Form -->
+            <div class="glass-panel p-8 md:p-12 border-t-4 border-t-red-600">
+                <h3 class="text-white text-xs font-black uppercase tracking-widest mb-10 italic border-b border-white/5 pb-4">Operative Enrollment</h3>
+                <form id="mafia-secure-form" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" name="name" placeholder="IDENTITY NAME" required class="mafia-input">
+                        <input type="email" name="email" placeholder="SECURE EMAIL" required class="mafia-input">
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <input type="text" name="country" placeholder="OPERATING REGION" required class="mafia-input">
+                        <input type="number" name="age" placeholder="AGE" required class="mafia-input">
+                    </div>
+                    <input type="text" name="phone" placeholder="MOBILE UNIT NUMBER" required class="mafia-input">
+                    <input type="text" name="address" placeholder="PHYSICAL BASE ADDRESS" required class="mafia-input">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <select name="gender" class="mafia-input text-gray-500"><option value="Male">Male</option><option value="Female">Female</option></select>
+                        <select name="experience" class="mafia-input text-gray-500"><option value="Novice">Initiate</option><option value="Expert">High-Tier</option></select>
+                    </div>
+                    <textarea name="about" placeholder="PERSONAL TRANSCRIPT / SPECIAL SKILLS" required class="mafia-input h-24"></textarea>
+                    <button type="submit" id="send-btn" class="w-full bg-red-700 py-5 text-white font-black uppercase tracking-[0.5em] hover:bg-red-600 transition shadow-[0_0_20px_rgba(255,0,0,0.3)]">SEND TRANSMISSION</button>
+                </form>
+            </div>
+
+            <!-- UI Verification Port -->
+            <div class="glass-panel p-8 md:p-12 border-t-4 border-t-gold-600 text-center flex flex-col justify-center">
+                <div class="relative w-44 h-44 mx-auto mb-10 border border-red-900/50 rounded-full flex items-center justify-center bg-black overflow-hidden">
+                    <div class="radar-sweep"></div>
+                    <i class="fas fa-fingerprint text-7xl text-red-700 z-10 animate-pulse"></i>
+                </div>
+                <h3 class="text-white gold-text text-4xl font-black uppercase mb-4 italic leading-none">Verification Port</h3>
+                <p class="text-gray-500 text-[10px] mb-12 uppercase tracking-[0.4em] leading-relaxed max-w-sm mx-auto">Access restricted core functions via biometric ID.</p>
+                <input type="text" id="manual-uid" placeholder="WM-XXXXXX" class="bg-black border border-white/10 p-8 text-red-600 text-center text-5xl font-mono outline-none focus:border-red-700 tracking-widest mb-10 uppercase">
+                <button onclick="authenticateID()" id="verify-btn" class="w-full bg-transparent border-2 border-red-700 py-6 text-white font-black uppercase tracking-[0.5em] hover:bg-red-700 transition">Verify Biometrics</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 2. ULTIMATE COMMAND DASHBOARD (UX MASTERPIECE) ================= -->
+    <div id="dashboard-view" class="hidden py-6">
+        <div class="max-w-[1600px] mx-auto space-y-8">
+            
+            <!-- HEADER -->
+            <header class="flex flex-col md:flex-row justify-between items-center bg-white/5 p-8 border-l-4 border-red-600">
+                <div>
+                    <h1 class="text-5xl md:text-7xl font-black text-white italic uppercase tracking-tighter leading-none">COMMAND <span class="gold-text">CENTER</span></h1>
+                    <p class="text-green-600 font-mono text-[10px] uppercase tracking-[0.4em] mt-4 animate-pulse">● System Connection: Authorized // Operative Session Active</p>
+                </div>
+                <button onclick="terminateSession()" class="px-8 py-3 bg-red-900 hover:bg-red-700 text-white font-black uppercase text-[10px] tracking-widest mt-6 md:mt-0 transition">Terminate Session</button>
+            </header>
+
+            <!-- MAIN PROFILE INTERFACE -->
+            <div class="glass-panel p-0 border border-white/10 relative shadow-[0_0_100px_rgba(0,0,0,1)]">
+                <div class="scan-line"></div>
+                
+                <div class="flex flex-col lg:flex-row">
+                    <!-- LEFT BIOMETRIC WING -->
+                    <div class="bg-gradient-to-b from-red-950/20 to-transparent p-12 border-r border-white/5 lg:w-1/4 text-center">
+                        <div class="relative w-56 h-56 mx-auto mb-10 border-2 border-red-900 rounded-full flex items-center justify-center bg-black overflow-hidden shadow-[0_0_50px_rgba(255,0,0,0.2)]">
+                            <div class="radar-sweep"></div>
+                            <i class="fas fa-user-secret text-8xl text-red-700 z-10 opacity-70"></i>
+                            <div class="absolute inset-0 border-2 border-red-600/10 rounded-full animate-ping"></div>
+                        </div>
+                        <div id="p-status-badge" class="px-10 py-2 bg-red-900 text-white font-black uppercase tracking-[0.4em] text-[10px] mb-8">Pending_Auth</div>
+                        <h2 id="p-name" class="text-4xl font-black text-white italic tracking-tighter uppercase gold-text leading-tight mb-2"></h2>
+                        <p class="text-gray-500 font-mono text-[9px] uppercase tracking-[1em] mb-12">Level: Operative</p>
+                        
+                        <div class="space-y-4 font-mono text-[11px] text-left border-t border-white/5 pt-10">
+                            <div class="flex justify-between uppercase"><span>Unit_ID:</span> <span id="p-id" class="text-white font-black gold-text"></span></div>
+                            <div class="flex justify-between uppercase"><span>Auth_Date:</span> <span id="p-date" class="text-white"></span></div>
+                            <div class="flex justify-between uppercase text-red-700 font-black animate-pulse"><span>Threat:</span> <span>High</span></div>
+                        </div>
+                    </div>
+
+                    <!-- CENTER INTEL GRID -->
+                    <div class="p-12 flex-1 relative grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div class="space-y-10">
+                            <h3 class="text-white text-[10px] font-black uppercase tracking-widest border-b border-red-900/40 pb-4 italic"><i class="fas fa-id-badge mr-3"></i> Profile Intel</h3>
+                            <div class="grid grid-cols-1 gap-8 font-mono text-xs uppercase">
+                                <div class="flex justify-between border-b border-white/5 pb-2"><span>Mobile Unit</span> <span id="p-phone" class="text-white font-bold"></span></div>
+                                <div class="flex justify-between border-b border-white/5 pb-2"><span>Email Node</span> <span id="p-email" class="text-white lowercase"></span></div>
+                                <div class="flex justify-between border-b border-white/5 pb-2"><span>Base Region</span> <span id="p-country" class="text-white"></span></div>
+                                <div class="flex justify-between border-b border-white/5 pb-2"><span>Unit Age</span> <span id="p-age" class="text-white font-bold"></span></div>
+                                <div class="flex justify-between border-b border-white/5 pb-2"><span>Clearance</span> <span id="p-exp" class="text-red-600 font-black"></span></div>
+                                <div class="space-y-2"><span class="text-gray-500">Transcript:</span> <p id="p-about" class="text-gray-400 normal-case italic text-xs leading-relaxed bg-white/5 p-4 border border-white/5"></p></div>
+                                <div class="space-y-2"><span class="text-gray-500">Address Node:</span> <p id="p-address" class="text-gray-400 italic text-[10px]"></p></div>
+                            </div>
+                        </div>
+
+                        <!-- RIGHT COMMAND WING -->
+                        <div class="space-y-10">
+                            <h3 class="text-white text-[10px] font-black uppercase tracking-widest border-b border-red-900/40 pb-4 italic"><i class="fas fa-satellite mr-3"></i> High Command Signal</h3>
+                            
+                            <!-- Heartbeat Admin Message -->
+                            <div id="admin-msg-box" class="hidden hazard-box p-8 relative overflow-hidden">
+                                <div class="absolute -top-4 -right-4 opacity-5"><i class="fas fa-biohazard text-8xl"></i></div>
+                                <h4 class="text-red-600 text-[11px] font-black uppercase mb-4 tracking-[0.4em] underline underline-offset-8">Incoming Directive:</h4>
+                                <p id="p-msg" class="text-gray-100 italic text-sm leading-loose"></p>
+                            </div>
+
+                            <div class="bg-black/50 p-6 border border-white/5 font-mono text-[9px] h-52 overflow-hidden shadow-inner opacity-60">
+                                <div class="space-y-2 text-green-900">
+                                    <p>> Booting shadow_handshake.exe...</p>
+                                    <p>> Accessing server_09.7.01...</p>
+                                    <p>> Masking IP signature... DONE</p>
+                                    <p>> Encrypting biometric bi-layer...</p>
+                                    <p>> Node connection: Pakistan Node 01 [OK]</p>
+                                    <p>> Firewall status: Impenetrable</p>
+                                    <p>> Signal frequency: 88.9MHz Locked</p>
+                                    <p>> Welcome back, Operative.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ================= 10+ EXTRA LOCKED FEATURES ================= -->
+            <h3 class="text-center text-white gold-text font-black uppercase tracking-[0.8em] py-10">Restricted Systems</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pb-32">
+                
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-vault text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Black Vault Assets</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-satellite-dish text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Internal Signal Hub</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-user-ninja text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Ghost Proxy Node</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-comment-slash text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Anonymous Chat</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-skull-crossbones text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Hitlist Registry</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-briefcase text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Marketplace Tools</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-microchip text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Cyber Exploits</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-folder-open text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Case Intelligence</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-coins text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Crypto Ledger</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-shield-virus text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">System Overrides</h5>
+                </div>
+
+                <div class="glass-panel p-8 text-center feature-locked group">
+                    <span class="access-denied-tag">DENIED</span>
+                    <i class="fas fa-globe text-red-700 text-3xl mb-4 group-hover:scale-110 transition"></i>
+                    <h5 class="text-white text-[10px] font-black uppercase">Node Expansion</h5>
+                </div>
+
+                <div class="glass-panel p-8 border-dashed border-white/5 text-center flex items-center justify-center">
+                    <p class="text-[8px] text-gray-700 font-mono tracking-widest animate-pulse uppercase">Features_In_Deployment</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        const sgAPI = 'https://script.google.com/macros/s/AKfycbyfCBlMEKbO2_zMPW9HOtcX9TdnCXnBq4hxd3IZadmrXLvzzZZewzvch1XWnE6r1puU/exec';
+
+        // 1. Submit Registration
+        document.getElementById('mafia-secure-form').addEventListener('submit', function(e) {
+            e.preventDefault(); e.stopPropagation();
+            const btn = document.getElementById('send-btn');
+            const genID = 'WM-' + Math.floor(100000 + Math.random() * 900000);
+            const formData = new FormData(this);
+            formData.append('uid', genID);
+
+            btn.innerText = "TRANSMITTING DATA..."; btn.disabled = true;
+
+            fetch(sgAPI, { method: 'POST', body: new URLSearchParams(formData) })
+            .then(() => {
+                document.getElementById('id-sticky-reminder').classList.remove('hidden');
+                document.getElementById('reminder-id-val').innerText = genID;
+                localStorage.setItem('mafia_id_assigned', genID);
+              // Is line ko verification ke waqt run karein
+                localStorage.setItem('market_user_id', genID);
+                btn.innerText = "SEND SUCCESS"; btn.disabled = false;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        });
+
+        function copyID() {
+            const id = document.getElementById('reminder-id-val').innerText;
+            navigator.clipboard.writeText(id);
+            const msg = document.getElementById('copy-msg');
+            msg.classList.remove('hidden');
+            setTimeout(() => msg.classList.add('hidden'), 3000);
+        }
+
+        // 2. Authentication Login
+        function authenticateID() {
+            const uid = document.getElementById('manual-uid').value.trim().toUpperCase();
+            if(!uid) return alert("UNIT ID REQUIRED.");
+            document.getElementById('verify-btn').innerText = "SYNCHRONIZING...";
+            loadOperativeData(uid);
+        }
+
+        function loadOperativeData(uid) {
+            fetch(sgAPI + "?uid=" + uid)
+            .then(res => res.json())
+            .then(data => {
+                if(data === "NOT_FOUND") {
+                    alert("ID REJECTED BY NET.");
+                    document.getElementById('verify-btn').innerText = "Verify Biometrics";
+                } else {
+    localStorage.setItem('mafia_active_session', uid);
+    localStorage.setItem('market_user_id', uid); // Login hote hi ye ID market ke liye set ho jayegi
+    renderOperativeDashboard(data);
+}
+            });
+        }
+
+        function renderOperativeDashboard(user) {
+            document.getElementById('entry-gate').classList.add('hidden');
+            document.getElementById('dashboard-view').classList.remove('hidden');
+
+            document.getElementById('p-id').innerText = user.uid;
+            document.getElementById('p-name').innerText = user.name;
+            document.getElementById('p-email').innerText = user.email || 'ENCRYPTED';
+            document.getElementById('p-phone').innerText = user.phone || 'HIDDEN';
+            document.getElementById('p-country').innerText = user.country;
+            document.getElementById('p-age').innerText = user.age || '--';
+            document.getElementById('p-exp').innerText = user.exp;
+            document.getElementById('p-address').innerText = user.addr;
+            document.getElementById('p-about').innerText = user.about;
+            document.getElementById('p-date').innerText = new Date(user.date).toDateString();
+
+            const badge = document.getElementById('p-status-badge');
+            badge.innerText = user.status;
+            if(user.status === "Verified") {
+                badge.innerText = "Verified Clearance";
+                badge.style.background = "#006400";
+            }
+
+            if(user.showHide === "Show") {
+                document.getElementById('admin-msg-box').classList.remove('hidden');
+                document.getElementById('p-msg').innerText = user.adminMsg;
+            }
+        }
+
+        window.addEventListener('load', () => {
+            const assignedID = localStorage.getItem('mafia_id_assigned');
+            const activeID = localStorage.getItem('mafia_active_session');
+            if(assignedID) {
+                document.getElementById('id-sticky-reminder').classList.remove('hidden');
+                document.getElementById('reminder-id-val').innerText = assignedID;
+            }
+            if(activeID) {
+                document.getElementById('entry-gate').classList.add('hidden');
+                loadOperativeData(activeID);
+            }
+        });
+
+        function terminateSession() {
+            localStorage.removeItem('mafia_active_session');
+            location.reload();
+        }
+
+        document.addEventListener('contextmenu', e => e.preventDefault());
+    </script>
+</body>
+</html>

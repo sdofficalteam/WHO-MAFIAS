@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHO MAFIAS MARKET | Official Store</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #f3f4f6; color: #1a1a1a; }
+        .amazon-card { background: white; border: 1px solid #ddd; transition: all 0.3s ease; }
+        .amazon-card:hover { border-color: #e77600; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .btn-amazon { background: #ffd814; border: 1px solid #fcd200; border-radius: 20px; color: #0f1111; font-weight: 500; }
+        .btn-amazon:hover { background: #f7ca00; }
+        .btn-buy-now { background: #ffa41c; border: 1px solid #ff8f00; border-radius: 20px; color: #0f1111; font-weight: 500; }
+        .btn-buy-now:hover { background: #fa8900; }
+        .sidebar-item { cursor: pointer; padding: 10px; border-radius: 5px; font-size: 14px; color: #444; }
+        .sidebar-item:hover, .sidebar-item.active { background: #f0f2f2; font-weight: bold; color: #000; border-left: 4px solid #e77600; }
+        .loading-spinner { border: 4px solid #f3f3f3; border-top: 4px solid #e77600; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .notification-badge { position: absolute; top: -5px; right: -5px; background: #e77600; color: white; border-radius: 50%; padding: 2px 6px; font-size: 10px; }
+        .price-tag { color: #B12704; font-size: 18px; font-weight: 700; }
+        .discount-tag { text-decoration: line-through; color: #565959; font-size: 13px; }
+        .verified-badge { background: #e7f4f3; color: #007600; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 700; }
+        .hidden { display: none; }
+
+        .product-card img { transition: transform 0.5s ease; }
+.product-card:hover img { transform: scale(1.15); }
+    </style>
+</head>
+<body class="bg-gray-100">
+
+    <!-- TOP NAVIGATION -->
+    <nav class="bg-[#131921] text-white p-3 sticky top-0 z-50">
+        <div class="max-w-[1500px] mx-auto flex flex-wrap items-center justify-between gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-4">
+                <h1 class="text-2xl font-extrabold tracking-tighter text-white italic">WHO MAFIAS <span class="text-[#e77600]">MARKET</span></h1>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="flex-grow max-w-2xl relative">
+                <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="Search products by name, ID or category..." class="w-full p-2.5 rounded-l-md text-black focus:outline-none">
+                <button class="absolute right-0 top-0 bg-[#febd69] h-full px-5 rounded-r-md text-black hover:bg-[#f3a847]">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+
+
+<div class="flex items-center gap-2 mb-4 text-sm">
+    <span class="font-bold">Sort By:</span>
+    <select onchange="sortProducts(this.value)" class="border rounded px-2 py-1 outline-none">
+        <option value="default">Featured</option>
+        <option value="low">Price: Low to High</option>
+        <option value="high">Price: High to Low</option>
+    </select>
+</div>
+<button id="backToTop" class="fixed bottom-6 left-6 bg-[#131921] text-white p-3 rounded-full hidden shadow-xl z-50">
+    <i class="fa fa-arrow-up"></i>
+</button>
+
+            <!-- User Actions -->
+             <div class="relative cursor-pointer flex flex-col items-center group" onclick="openRecords()">
+    <i class="fa fa-list-ul text-2xl text-gray-400 group-hover:text-[#febd69]"></i>
+    <span class="text-[10px] font-bold text-gray-400">My Orders</span>
+</div>
+            
+                <div class="relative cursor-pointer" onclick="toggleCart()">
+                    <i class="fa fa-shopping-cart text-3xl"></i>
+                    <span id="cartCount" class="notification-badge">0</span>
+                    <span class="ml-8 font-bold text-sm">Cart</span>
+                </div>
+                <div class="flex flex-col items-end">
+                    <span class="text-[10px] text-gray-400">UserID:</span>
+                    <span id="displayUserID" class="text-xs font-bold text-[#febd69]">WM-6629</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <div class="max-w-[1500px] mx-auto grid grid-cols-1 lg:grid-cols-5 gap-6 mt-6 px-4">
+        
+        <!-- SIDEBAR -->
+        <aside class="lg:col-span-1 space-y-4">
+            <div class="bg-white p-4 rounded shadow-sm border border-gray-200">
+                <h3 class="font-bold text-lg mb-4 border-b pb-2">Categories</h3>
+                <nav class="flex flex-col space-y-1" id="categoryList">
+    <!-- All Departments -->
+    <div onclick="changeCategory('all', this)" class="sidebar-item active">
+        <i class="fa-solid fa-border-all mr-3 text-black"></i> All Departments
+    </div>
+
+    <!-- Documents & Files -->
+    <div onclick="changeCategory('Documents & Files', this)" class="sidebar-item">
+        <i class="fa-solid fa-file-shield mr-3 text-black"></i> Documents & Files
+    </div>
+
+    <!-- Digital Items -->
+    <div onclick="changeCategory('Digital Items', this)" class="sidebar-item">
+        <i class="fa-solid fa-laptop-code mr-3 text-black"></i> Digital Items
+    </div>
+
+    <!-- Electronics & Technology -->
+    <div onclick="changeCategory('Electronics & Technology', this)" class="sidebar-item">
+        <i class="fa-solid fa-microchip mr-3 text-black"></i> Electronics & Tech
+    </div>
+
+    <!-- Vehicles Parts -->
+    <div onclick="changeCategory('Vehicles Parts', this)" class="sidebar-item">
+        <i class="fa-solid fa-gears mr-3 text-black"></i> Vehicles Parts
+    </div>
+
+    <!-- Medicines -->
+    <div onclick="changeCategory('Medicines', this)" class="sidebar-item">
+        <i class="fa-solid fa-capsules mr-3 text-black"></i> Medicines
+    </div>
+
+    <!-- Weapons & Melee -->
+    <div onclick="changeCategory('Weapons & Melee', this)" class="sidebar-item">
+        <i class="fa-solid fa-gun mr-3 text-black"></i> Weapons & Melee
+    </div>
+
+    <!-- Narcotics -->
+    <div onclick="changeCategory('Narcotics', this)" class="sidebar-item">
+        <i class="fa-solid fa-biohazard mr-3 text-black"></i> Narcotics
+    </div>
+
+    <!-- Food & Drinks -->
+    <div onclick="changeCategory('Food & Drinks', this)" class="sidebar-item">
+        <i class="fa-solid fa-wine-glass-empty mr-3 text-black"></i> Food & Drinks
+    </div>
+
+    <!-- Products, Branding -->
+    <div onclick="changeCategory('Products,Branding', this)" class="sidebar-item">
+        <i class="fa-solid fa-tags mr-3 text-black"></i> Products & Branding
+    </div>
+
+    <!-- Hardware & Tools -->
+    <div onclick="changeCategory('Hardware & Tools', this)" class="sidebar-item">
+        <i class="fa-solid fa-hammer mr-3 text-black"></i> Hardware & Tools
+    </div>
+
+    <!-- Art & Collectibles -->
+    <div onclick="changeCategory('Art & Collectibles', this)" class="sidebar-item">
+        <i class="fa-solid fa-gem mr-3 text-black"></i> Art & Collectibles
+    </div>
+
+    <!-- Mobiles & Accessories -->
+    <div onclick="changeCategory('Mobiles & Accessories', this)" class="sidebar-item">
+        <i class="fa-solid fa-mobile-retro mr-3 text-black"></i> Mobiles & Acc.
+    </div>
+</nav>
+            </div>
+
+            <!-- Social Proof Widget -->
+            <div class="bg-white p-4 rounded shadow-sm border border-gray-200">
+                <h4 class="text-xs font-bold uppercase text-gray-500 mb-3">Live Activity</h4>
+                <div id="liveActivity" class="text-[11px] space-y-3">
+                    <p class="text-green-700 animate-pulse">● Unit WM-4829 acquired 'Identity Kit' - 2 mins ago</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- PRODUCT GRID -->
+        <main class="lg:col-span-4">
+            <div id="loader" class="flex flex-col items-center justify-center py-20">
+                <div class="loading-spinner"></div>
+                <p class="mt-4 text-gray-600 font-medium">Fetching Market Assets...</p>
+            </div>
+
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 hidden">
+                <!-- Products will be injected here -->
+            </div>
+        </main>
+    </div>
+
+    <!-- CART MODAL -->
+    <div id="cartModal" class="fixed inset-0 bg-black/50 z-[60] hidden flex justify-end">
+        <div class="bg-white w-full max-w-md h-full shadow-2xl p-6 overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-4 mb-4">
+                <h2 class="text-2xl font-bold">Your Basket (<span id="cartCountDisplay">0</span>)</h2>
+                <button onclick="toggleCart()" class="text-gray-500 hover:text-black text-2xl">&times;</button>
+            </div>
+            <div id="cartItemsList" class="space-y-4">
+                <!-- Cart items here -->
+            </div>
+            <div class="mt-8 border-t pt-4">
+                <div class="flex justify-between text-xl font-bold mb-6">
+                    <span>Total:</span>
+                    <span id="cartTotal">Rs. 0</span>
+                </div>
+                <button onclick="showCheckout()" class="w-full btn-buy-now py-3 text-lg mb-3">Proceed to Checkout</button>
+                <button onclick="toggleCart()" class="w-full bg-gray-200 py-3 rounded-full font-medium">Continue Shopping</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT FORM MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 bg-black/50 z-[70] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-2xl rounded-lg shadow-2xl p-8 overflow-y-auto max-h-[90vh]">
+            <h2 class="text-2xl font-bold mb-6 border-b pb-2">Shipping Information</h2>
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold mb-1">UserID (Auto)</label>
+                    <input type="text" id="form_userId" readonly class="w-full border p-2 bg-gray-50 rounded">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">Full Name</label>
+                    <input type="text" id="form_name" required class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">Contact Number</label>
+                    <input type="text" id="form_contact" required class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">Country</label>
+                    <input type="text" id="form_country" required class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">City</label>
+                    <input type="text" id="form_city" required class="w-full border p-2 rounded">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold mb-1">Region / State</label>
+                    <input type="text" id="form_region" required class="w-full border p-2 rounded">
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-xs font-bold mb-1">Full Address</label>
+                    <textarea id="form_address" required class="w-full border p-2 rounded h-20"></textarea>
+                </div>
+                <div class="md:col-span-2 space-y-2">
+                    <p class="text-xs font-bold">Items to Order:</p>
+                    <div id="checkoutItems" class="bg-gray-50 p-3 rounded border italic text-sm"></div>
+                </div>
+                <button type="button" onclick="closeModals()" class="bg-gray-300 py-3 rounded font-bold">Cancel</button>
+                <button type="submit" class="btn-buy-now py-3 rounded font-bold">Next: Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAYMENT MODAL -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/50 z-[80] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-lg shadow-2xl p-6">
+            <h2 class="text-xl font-bold mb-4">Finalize Payment</h2>
+            <p class="text-sm text-gray-600 mb-6">Select your preferred payment method to complete order <span id="pay_orderId" class="font-bold text-black"></span></p>
+            
+            <div class="grid grid-cols-3 gap-2 mb-6">
+                <button onclick="selectPay('Easypaisa')" class="border p-2 rounded hover:border-orange-500 focus:bg-orange-50">Easypaisa</button>
+                <button onclick="selectPay('JazzCash')" class="border p-2 rounded hover:border-orange-500 focus:bg-orange-50">JazzCash</button>
+                <button onclick="selectPay('Binance')" class="border p-2 rounded hover:border-orange-500 focus:bg-orange-50">Binance</button>
+                <button onclick="selectPay('COD')" class="border p-2 rounded hover:border-orange-500 focus:bg-orange-50 col-span-3">Cash on Delivery</button>
+            </div>
+
+            <div id="paymentDetailsBox" class="bg-gray-100 p-4 rounded-lg mb-6 hidden">
+                <!-- Payment details will show here -->
+            </div>
+
+            <div id="trxBox" class="hidden space-y-4">
+                <div>
+                    <label class="block text-xs font-bold mb-1">Transaction ID (TRX ID)</label>
+                    <input type="text" id="trxIdInput" placeholder="Enter proof of payment" class="w-full border p-2 rounded">
+                </div>
+                <button onclick="finishOrder()" class="w-full btn-buy-now py-3 font-bold">Confirm & Buy Now</button>
+            </div>
+            
+            <div id="codBox" class="hidden">
+                <button onclick="finishOrder()" class="w-full btn-buy-now py-3 font-bold">Place COD Order</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRACKING MODAL -->
+    <div id="trackingModal" class="fixed inset-0 bg-black/50 z-[90] hidden flex items-center justify-center p-4">
+        <div class="bg-white w-full max-w-md rounded-lg p-6">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Track Your Order</h2>
+                <button onclick="closeModals()" class="text-2xl">&times;</button>
+            </div>
+            <div class="flex gap-2 mb-6">
+                <input type="text" id="trackInput" placeholder="Order ID (e.g. WM-1234)" class="w-full border p-2 rounded">
+                <button onclick="trackOrder()" class="btn-amazon px-4">Track</button>
+            </div>
+            <div id="trackResult" class="p-4 border rounded hidden text-center font-bold bg-gray-50"></div>
+        </div>
+    </div>
+
+    <script>
+
+           // --- STEP 1: GET USER ID FROM PROFILE ---
+    // Yeh line UserProfile.html se ID uthaye gi
+   let storedUserID = localStorage.getItem('market_user_id');
+
+    // Agar profile se ID nahi mili, toh user ko batayein (Security)
+    if (!storedUserID) {
+        
+        // Agar aap chahte hain ke user wapas profile page par chala jaye:
+        // window.location.href = "UserProfile.html"; 
+       window.location.href = "UserProfile.html"; 
+}
+
+
+        // CONFIGURATION
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyqoOz-JGyQh5JvcBZBf4A2Ph-kBX6vFVcXqslnZeMB8kMyE7ECEfTBID1PcGXS1aY_KQ/exec"; // PASTE YOUR URL HERE
+        const USER_ID = storedUserID;
+        
+        let allProducts = [];
+        let cart = JSON.parse(localStorage.getItem('wm_cart')) || [];
+        let currentOrderId = "";
+        let selectedPaymentMethod = "";
+
+        // INIT
+        // INIT
+    window.onload = () => {
+        // UI Update
+        document.getElementById('displayUserID').innerText = USER_ID;
+        if(document.getElementById('form_userId')) {
+            document.getElementById('form_userId').value = USER_ID;
+        }
+        fetchProducts();
+        updateCartCount();
+        startSocialProof();
+    };
+
+
+        // FETCH PRODUCTS
+        async function fetchProducts() {
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=getProducts`);
+                allProducts = await response.json();
+                renderProducts(allProducts);
+                document.getElementById('loader').classList.add('hidden');
+                document.getElementById('productGrid').classList.remove('hidden');
+                
+                // Start Image Toggle Interval
+                setInterval(toggleProductImages, 3000);
+            } catch (err) {
+                console.error("Error fetching products:", err);
+            }
+        }
+
+        // RENDER PRODUCTS
+        function renderProducts(products) {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = products.map(p => {
+                if (p.Status !== 'Active') return '';
+                
+                 // Auto Calculations
+        const discountPercent = Math.round(((p.DiscountPrice - p.SalePrice) / p.DiscountPrice) * 100);
+        
+        // Stock Alert Logic (Agar stock 10 se kam ho)
+        const stock = p.Stock < 10 ? `<p class="text-[10px] text-red-600 font-bold">Only ${p.Stock} Left - Order Fast!</p>` : `<p class="text-[10px] text-green-600">In Stock</p>`;
+        
+                return `
+                <div class="amazon-card rounded-md overflow-hidden flex flex-col product-card" data-category="${p.Category}">
+                    <div class="h-64 overflow-hidden bg-gray-100 relative group">
+                        <img src="${p.Image1}" class="w-full h-full object-contain p-2 product-img-1 transition-opacity duration-500">
+                        <img src="${p.Image2 || p.Image1}" class="w-full h-full object-contain p-2 product-img-2 absolute top-0 left-0 opacity-0 transition-opacity duration-500">
+                    </div>
+                    <div class="p-4 flex-grow flex flex-col">
+                        <span class="text-[10px] text-gray-500 font-mono">${p.ProductID} | ${p.Category}</span>
+                        <h3 class="text-sm font-bold line-clamp-2 mt-1 hover:text-orange-700 cursor-pointer">${p.ProductName}</h3>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="verified-badge">Verified Seller: ${p.SellerName}</span>
+                        </div>
+                        <p class="text-xs text-gray-600 mt-2 line-clamp-2 italic">${p.Description}</p>
+                        
+                        <div class="mt-4">
+                            <div class="flex items-center gap-2">
+                                <span class="discount-tag">Rs.${p.DiscountPrice}</span>
+                                <span class="text-xs bg-red-100 text-red-700 px-1 font-bold">-${Math.round((p.DiscountPrice-p.SalePrice)/p.DiscountPrice*100)}%</span>
+                            </div>
+                            <div class="price-tag">Rs. ${p.SalePrice}</div>
+                        </div>
+
+                        <div class="mt-auto pt-4 space-y-2">
+                            <button onclick="addToCart('${p.ProductID}')" class="w-full btn-amazon py-1.5 text-sm">Add to Cart</button>
+                            <button onclick="buyNow('${p.ProductID}')" class="w-full btn-buy-now py-1.5 text-sm">Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+                `;
+            }).join('');
+        }
+
+        
+        // AUTO TOGGLE IMAGES
+        function toggleProductImages() {
+            document.querySelectorAll('.product-card').forEach(card => {
+                const img1 = card.querySelector('.product-img-1');
+                const img2 = card.querySelector('.product-img-2');
+                if (img1 && img2 && img1.src !== img2.src) {
+                    if (img1.classList.contains('opacity-0')) {
+                        img1.classList.remove('opacity-0');
+                        img2.classList.add('opacity-0');
+                    } else {
+                        img1.classList.add('opacity-0');
+                        img2.classList.remove('opacity-0');
+                    }
+                }
+            });
+        }
+
+        // CATEGORY FILTER
+        function changeCategory(cat, el) {
+            document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+            el.classList.add('active');
+            
+            if (cat === 'all') {
+                renderProducts(allProducts);
+            } else {
+                const filtered = allProducts.filter(p => p.Category.trim() === cat.trim());
+                renderProducts(filtered);
+            }
+        }
+
+        // SEARCH
+        function searchProducts() {
+            const term = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allProducts.filter(p => 
+                p.ProductName.toLowerCase().includes(term) || 
+                p.ProductID.toLowerCase().includes(term) ||
+                p.Category.toLowerCase().includes(term)
+            );
+            renderProducts(filtered);
+        }
+
+        // CART LOGIC
+        function addToCart(id) {
+            if (cart.length >= 5) {
+                alert("Cart limit reached! Max 5 items allowed.");
+                return;
+            }
+            const product = allProducts.find(p => p.ProductID === id);
+            cart.push(product);
+            saveCart();
+            updateCartCount();
+            alert(`${product.ProductName} added to cart!`);
+        }
+
+        function buyNow(id) {
+            cart = [allProducts.find(p => p.ProductID === id)];
+            saveCart();
+            updateCartCount();
+            showCheckout();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cartModal');
+            modal.classList.toggle('hidden');
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const list = document.getElementById('cartItemsList');
+            const totalEl = document.getElementById('cartTotal');
+            let total = 0;
+            
+            list.innerHTML = cart.map((item, index) => {
+                total += parseFloat(item.SalePrice);
+                return `
+                    <div class="flex gap-4 border-b pb-4">
+                        <img src="${item.Image1}" class="w-20 h-20 object-contain">
+                        <div class="flex-grow">
+                            <h4 class="text-sm font-bold">${item.ProductName}</h4>
+                            <p class="text-orange-700 font-bold">Rs. ${item.SalePrice}</p>
+                            <button onclick="removeFromCart(${index})" class="text-blue-600 text-xs hover:underline">Delete</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            
+            totalEl.innerText = `Rs. ${total}`;
+            document.getElementById('cartCountDisplay').innerText = cart.length;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            saveCart();
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function saveCart() { localStorage.setItem('wm_cart', JSON.stringify(cart)); }
+        function updateCartCount() { document.getElementById('cartCount').innerText = cart.length; }
+
+        // CHECKOUT LOGIC
+        function showCheckout() {
+            if (cart.length === 0) { alert("Your cart is empty!"); return; }
+            document.getElementById('cartModal').classList.add('hidden');
+            document.getElementById('checkoutModal').classList.remove('hidden');
+            
+            const itemNames = cart.map(i => i.ProductName).join(', ');
+            document.getElementById('checkoutItems').innerText = itemNames;
+        }
+
+async function handleOrderSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    
+    // Lock Button
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> SECURING DATA...';
+    btn.style.opacity = "0.5";
+
+    currentOrderId = "ORD-" + Date.now();
+    
+    const formData = {
+        action: 'submitOrder',
+        formData: {
+            userId: USER_ID,
+            name: document.getElementById('form_name').value,
+            orderId: currentOrderId,
+            itemIds: cart.map(i => i.ProductID).join(', '),
+            contact: document.getElementById('form_contact').value,
+            productNames: cart.map(i => i.ProductName).join(', '),
+            country: document.getElementById('form_country').value,
+            city: document.getElementById('form_city').value,
+            region: document.getElementById('form_region').value,
+            address: document.getElementById('form_address').value
+        }
+    };
+
+    try {
+        await fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(formData) });
+        document.getElementById('checkoutModal').classList.add('hidden');
+        document.getElementById('paymentModal').classList.remove('hidden');
+        document.getElementById('pay_orderId').innerText = currentOrderId;
+    } catch (err) {
+        alert("Error connecting to market. Try again.");
+        btn.disabled = false;
+        btn.innerText = "Next: Payment";
+        btn.style.opacity = "1";
+    }
+}
+
+        // PAYMENT LOGIC
+        function selectPay(method) {
+            selectedPaymentMethod = method;
+            const box = document.getElementById('paymentDetailsBox');
+            const trxBox = document.getElementById('trxBox');
+            const codBox = document.getElementById('codBox');
+            
+            box.classList.remove('hidden');
+            
+            if (method === 'Easypaisa') {
+                box.innerHTML = `<strong>Easypaisa Details:</strong><br>Account Name: Mafia Admin<br>Account Number: 0300-1234567`;
+                trxBox.classList.remove('hidden'); codBox.classList.add('hidden');
+            } else if (method === 'JazzCash') {
+                box.innerHTML = `<strong>JazzCash Details:</strong><br>Account Name: Mafia Market<br>Account Number: 0311-7654321`;
+                trxBox.classList.remove('hidden'); codBox.classList.add('hidden');
+            } else if (method === 'Binance') {
+                box.innerHTML = `<strong>Binance (USDT TRC20):</strong><br>Address: T9z8...xyz789<br>Binance ID: 88776655`;
+                trxBox.classList.remove('hidden'); codBox.classList.add('hidden');
+            } else {
+                box.innerHTML = `<strong>Cash on Delivery:</strong><br>Pay when you receive the items.`;
+                trxBox.classList.add('hidden'); codBox.classList.remove('hidden');
+            }
+        }
+
+async function finishOrder() {
+    // Sary confirm buttons ko select karna
+    const confirmBtn = document.querySelector('#trxBox button');
+    const codBtn = document.querySelector('#codBox button');
+    
+    // Jo bhi button screen par hai usay disable kar do
+    const activeBtn = (selectedPaymentMethod === 'COD') ? codBtn : confirmBtn;
+
+    if (activeBtn) {
+        activeBtn.disabled = true; // Button Lock
+        activeBtn.style.opacity = "0.5";
+        activeBtn.style.pointerEvents = "none"; // Hard click block
+        activeBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> TRANSMITTING...';
+    }
+
+    const totalAmount = cart.reduce((acc, item) => acc + parseFloat(item.SalePrice), 0);
+    const trxId = (selectedPaymentMethod === 'COD') ? "CASH_ON_DELIVERY" : document.getElementById('trxIdInput').value;
+
+    const paymentData = {
+        action: 'submitPayment',
+        paymentData: {
+            orderId: currentOrderId,
+            type: selectedPaymentMethod,
+            details: document.getElementById('paymentDetailsBox').innerText,
+            trxId: trxId,
+            amount: totalAmount
+        }
+    };
+
+    try {
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            body: JSON.stringify(paymentData)
+        });
+        const result = await response.json();
+
+        if (result.status === 'success' || result.status === 'duplicate') {
+           
+            cart = [];
+            saveCart();
+            location.reload(); // Refresh to reset everything
+        }
+    } catch (err) {
+        alert("CRITICAL ERROR: Failed to log payment.");
+        if (activeBtn) {
+            activeBtn.disabled = false;
+            activeBtn.style.opacity = "1";
+            activeBtn.style.pointerEvents = "auto";
+            activeBtn.innerText = "Confirm Order";
+        }
+    }
+}
+        // TRACKING
+        function showTracking() { document.getElementById('trackingModal').classList.remove('hidden'); }
+        
+        async function trackOrder() {
+            const id = document.getElementById('trackInput').value;
+            const resBox = document.getElementById('trackResult');
+            resBox.classList.remove('hidden');
+            resBox.innerText = "Tracking...";
+            
+            try {
+                const response = await fetch(`${SCRIPT_URL}?action=trackOrder&orderId=${id}`);
+                const data = await response.json();
+                resBox.innerHTML = `Status: <span class="text-orange-600">${data.status}</span><br><small>${data.date || ''}</small>`;
+            } catch (err) {
+                resBox.innerText = "Order Not Found";
+            }
+        }
+
+        function closeModals() {
+            document.querySelectorAll('.fixed').forEach(m => m.classList.add('hidden'));
+        }
+
+        function startSocialProof() {
+            const activities = [
+                "Unit WM-4829 successfully acquired 'Identity Kit'",
+                "Secure Delivery completed for 'Encrypted Node'",
+                "New stock added to 'Cyber Security'",
+                "Anonymous user purchased 'Financial Tools'",
+                "Order WM-9901 shipped to Region-7"
+            ];
+            setInterval(() => {
+                const random = activities[Math.floor(Math.random() * activities.length)];
+                document.getElementById('liveActivity').innerHTML = `<p class="text-green-700 animate-pulse">● ${random} - Just now</p>`;
+            }, 8000);
+        }
+
+
+        async function openRecords() {
+    document.getElementById('recordsModal').classList.remove('hidden');
+    const tableBody = document.getElementById('recordsTableBody');
+    const loader = document.getElementById('recordsLoader');
+    const emptyMsg = document.getElementById('recordsEmpty');
+    
+    tableBody.innerHTML = '';
+    loader.classList.remove('hidden');
+    emptyMsg.classList.add('hidden');
+
+    try {
+        const response = await fetch(`${SCRIPT_URL}?action=getRecords&userId=${USER_ID}`);
+        const data = await response.json();
+        
+        loader.classList.add('hidden');
+        
+        if (data.length === 0) {
+            emptyMsg.classList.remove('hidden');
+            return;
+        }
+
+        data.forEach(row => {
+            const tr = `
+                <tr class="text-sm hover:bg-gray-50">
+                    <td class="py-4 px-2 font-mono font-bold text-blue-700">${row.orderId}</td>
+                    <td class="py-4 px-2">
+                        <div class="font-bold">${row.productNames}</div>
+                        <div class="text-[10px] text-gray-400 uppercase">${row.itemIds}</div>
+                    </td>
+                    <td class="py-4 px-2">
+                        <span class="px-2 py-1 rounded-md text-[10px] font-bold uppercase ${getStatusColor(row.status)}">
+                            ${row.status}
+                        </span>
+                    </td>
+                    <td class="py-4 px-2 text-xs text-gray-500">
+                        ${new Date(row.date).toLocaleString()}
+                    </td>
+                </tr>
+            `;
+            tableBody.innerHTML += tr;
+        });
+    } catch (err) {
+        loader.innerHTML = '<p class="text-red-500 font-bold">CRITICAL ERROR: Failed to fetch records.</p>';
+    }
+}
+
+function getStatusColor(status) {
+    if (status.includes('Processing')) return 'bg-orange-100 text-orange-700';
+    if (status.includes('Shipped') || status.includes('Verified')) return 'bg-blue-100 text-blue-700';
+    if (status.includes('Delivered') || status.includes('Completed')) return 'bg-green-100 text-green-700';
+    return 'bg-gray-100 text-gray-600';
+}
+
+function closeRecords() {
+    document.getElementById('recordsModal').classList.add('hidden');
+}
+
+// Important: finishOrder function mein ye line add karein takay data foran history mein jaye
+// saveToRecords logic is handled by the backend automatically when you submit payment.
+
+
+// 1. Disable Right Click
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// 2. Disable Keyboard Shortcuts (F12, Ctrl+Shift+I, Ctrl+U, etc.)
+document.onkeydown = function(e) {
+    // Disable F12
+    if (e.keyCode == 123) {
+        return false;
+    }
+    // Disable Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+    }
+    // Disable Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+    }
+    // Disable Ctrl+U (View Source)
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        return false;
+    }
+    // Disable Ctrl+S (Save Page)
+    if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+        return false;
+    }
+};
+
+// 3. Detect DevTools Opening
+// Agar koi DevTools kholta hai to page ko blank ya refresh kar do
+setInterval(function() {
+    if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+        document.body.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh; font-family:sans-serif; background:#f3f4f6;'><h1>ACCESS DENIED: Developer Tools Detected.</h1></div>";
+        setTimeout(() => location.reload(), 2000);
+    }
+}, 1000);
+
+// 4. Prevent Dragging Images (Protection for assets)
+document.addEventListener('dragstart', (e) => e.preventDefault());
+
+// 5. DOM Tamper Protection (Mutation Observer)
+// Agar koi HTML element ko console se change karne ki koshish karega to page refresh ho jayega
+const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+        if (mutation.type === 'childList' || mutation.type === 'attributes') {
+            console.warn("Unauthorized DOM change detected.");
+            // Optional: location.reload(); 
+        }
+    });
+});
+
+observer.observe(document.body, {
+    attributes: true,
+    childList: true,
+    subtree: true
+});
+
+// 6. Disable Text Selection (Copy protection)
+// Isse user text copy nahi kar sakay ga
+document.onselectstart = new Function("return false");
+
+function sortProducts(type) {
+    let sorted = [...allProducts];
+    if(type === 'low') sorted.sort((a, b) => a.SalePrice - b.SalePrice);
+    if(type === 'high') sorted.sort((a, b) => b.SalePrice - a.SalePrice);
+    renderProducts(sorted);
+}
+
+
+window.onscroll = function() {
+    let btn = document.getElementById('backToTop');
+    if (document.documentElement.scrollTop > 300) btn.style.display = "block";
+    else btn.style.display = "none";
+};
+document.getElementById('backToTop').onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+
+
+function renderProducts(products) {
+    const grid = document.getElementById('productGrid');
+    grid.innerHTML = products.map(p => {
+        if (p.Status !== 'Active' || p.HideStatus === 'HIDE') return '';
+
+        // 1. Discount Calculation
+        const discountPercent = p.DiscountPrice > p.SalePrice ? Math.round(((p.DiscountPrice - p.SalePrice) / p.DiscountPrice) * 100) : 0;
+        
+        // 2. Rating Star Logic (O1 Column)
+        const ratingScore = parseFloat(p.Rating) || 0;
+        let starsHTML = '';
+        for (let i = 1; i <= 5; i++) {
+            if (i <= ratingScore) starsHTML += '<i class="fa fa-star"></i>';
+            else if (i - 0.5 <= ratingScore) starsHTML += '<i class="fa fa-star-half-alt"></i>';
+            else starsHTML += '<i class="fa-regular fa-star"></i>';
+        }
+
+        // R1: Highlights Logic - Comma se split karke list banana
+const highlightsHTML = p.Highlights ? p.Highlights.split(',').map(point => 
+    `<li class="flex items-center gap-1.5">
+        <i class="fa-solid fa-circle-check text-blue-500 text-[8px]"></i> 
+        ${point.trim()}
+    </li>`
+).join('') : '';
+
+        // 3. Tags Badge Logic (N1 Column)
+        const tagBadge = p.Tags ? `<span class="bg-blue-600 text-white text-[9px] font-bold px-2 py-0.5 rounded shadow-sm uppercase">${p.Tags}</span>` : '';
+
+        
+        return `
+        <div class="amazon-card rounded-md overflow-hidden flex flex-col product-card relative group bg-white shadow-sm hover:shadow-xl transition-all duration-300">
+            
+            <!-- BADGES (Top Left) -->
+            <div class="absolute top-2 left-2 z-10 flex flex-col gap-1">
+                ${tagBadge}
+                ${discountPercent > 0 ? `<span class="bg-red-600 text-white text-[9px] font-bold px-2 py-0.5 rounded uppercase">-${discountPercent}% OFF</span>` : ''}
+            </div>
+
+            <!-- IMAGE SECTION -->
+            <div class="h-60 overflow-hidden bg-white relative p-4">
+                <img src="${p.Image1}" class="w-full h-full object-contain product-img-1 transition-transform duration-500 group-hover:scale-105">
+                <img src="${p.Image2 || p.Image1}" class="w-full h-full object-contain absolute top-0 left-0 p-4 opacity-0 product-img-2 transition-opacity duration-500">
+                
+            
+            </div>
+
+            <!-- CONTENT SECTION -->
+            <div class="p-4 flex flex-col flex-grow border-t border-gray-50">
+                <!-- Category & Brand -->
+                <div class="flex justify-between items-start">
+                    <p class="text-[10px] text-orange-700 font-bold uppercase tracking-tighter">${p.Category}</p>
+                    <span class="text-[9px] bg-gray-100 px-1 rounded font-mono">${p.ProductID}</span>
+                </div>
+
+                <!-- Product Name -->
+                <h3 class="text-sm font-semibold line-clamp-2 mt-1 h-10 text-gray-900 leading-snug hover:text-blue-700 cursor-pointer">
+                    ${p.ProductName}
+                </h3>
+                
+                <ul class="mt-2 text-[10px] text-gray-600 space-y-0.5 font-medium">
+    ${highlightsHTML || `
+        <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-500 text-[8px]"></i> Secure Packing</li>
+        <li class="flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-blue-500 text-[8px]"></i> Fast Shipping</li>
+    `}
+</ul>
+                <!-- RATING (O1 Column) -->
+                <div class="flex items-center gap-1 mt-1">
+                    <div class="flex text-yellow-400 text-[10px]">
+                        ${starsHTML}
+                    </div>
+                    <span class="text-[11px] text-blue-600 font-medium">${p.Rating || '0.0'}</span>
+                    <span class="text-[10px] text-gray-400">(${Math.floor(Math.random() * 500) + 50})</span>
+                </div>
+
+                <!-- PRICE SECTION -->
+                <div class="mt-3">
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-2xl font-bold text-gray-900">Rs. ${p.SalePrice}</span>
+                        ${discountPercent > 0 ? `<span class="text-xs text-gray-500 line-through">Rs. ${p.DiscountPrice}</span>` : ''}
+                    </div>
+                </div>
+
+                <!-- DELIVERY & WARRANTY (P1 & Q1 Columns) -->
+                <div class="mt-3 space-y-1.5 py-2 border-y border-gray-100">
+                    <div class="flex items-center gap-2 text-[11px] text-gray-700">
+                        <i class="fa fa-truck text-gray-400 w-4 text-center"></i>
+                        <span>Delivery: <span class="font-bold text-green-700">${p.DeliveryDays || 'Standard'}</span></span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[11px] text-gray-700">
+                        <i class="fa fa-shield-heart text-gray-400 w-4 text-center"></i>
+                        <span>Warranty: <span class="font-medium">${p.Warranty || 'No Warranty'}</span></span>
+                    </div>
+                </div>
+
+                <!-- STOCK STATUS -->
+                <div class="mt-2 flex items-center justify-between">
+                    <span class="text-[10px] ${p.Stock < 10 ? 'text-red-600 font-bold' : 'text-gray-500'}">
+                        ${p.Stock < 10 ? `Only ${p.Stock} items left!` : 'In Stock'}
+                    </span>
+                    <p class="text-[10px] text-gray-400 italic">Sold by: ${p.SellerName}</p>
+                </div>
+
+                <!-- BUTTONS -->
+                <div class="mt-4 flex flex-col gap-2">
+                    <button onclick="addToCart('${p.ProductID}')" class="w-full bg-[#ffd814] hover:bg-[#f7ca00] text-black py-2 rounded-full text-xs font-bold transition-all shadow-sm">
+                        Add to Cart
+                    </button>
+                    <button onclick="buyNow('${p.ProductID}')" class="w-full bg-[#ffa41c] hover:bg-[#fa8900] text-black py-2 rounded-full text-xs font-bold transition-all shadow-sm">
+                        Buy Now
+                    </button>
+                </div>
+            </div>
+        </div>
+        `;
+    }).join('');
+}
+    </script>
+
+
+<!-- SECURE RECORDS MODAL -->
+<div id="recordsModal" class="fixed inset-0 bg-black/70 z-[110] hidden flex items-center justify-center p-4">
+    <div class="bg-white w-full max-w-5xl rounded-lg shadow-2xl overflow-hidden">
+        <div class="bg-[#232f3e] p-4 flex justify-between items-center">
+            <h2 class="text-white font-bold flex items-center gap-2">
+                <i class="fa fa-shield-halved text-[#febd69]"></i> SECURE ORDER TRANSMISSIONS
+            </h2>
+            <button onclick="closeRecords()" class="text-white text-3xl hover:text-red-500">&times;</button>
+        </div>
+        <div class="p-6 overflow-y-auto max-h-[75vh]">
+            <table class="w-full text-left">
+                <thead>
+                    <tr class="text-xs text-gray-500 border-b">
+                        <th class="py-3 px-2">Order ID</th>
+                        <th class="py-3 px-2">Assets Acquired</th>
+                        <th class="py-3 px-2">Transmission Status</th>
+                        <th class="py-3 px-2">Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody id="recordsTableBody" class="divide-y">
+                    <!-- Data will be injected here -->
+                </tbody>
+            </table>
+            <div id="recordsLoader" class="text-center py-10">
+                <div class="loading-spinner mx-auto"></div>
+            </div>
+            <div id="recordsEmpty" class="hidden text-center py-10 text-gray-400 italic">
+                No secure records found for your Unit ID.
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

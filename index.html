@@ -1,0 +1,1729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WHO MAFIAS | Elite Digital Empire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --mafia-red: #8b0000;
+            --mafia-gold: #c5a059;
+            --deep-black: #050505;
+        }
+
+        body {
+            background-color: var(--deep-black);
+            color: #d1d5db;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        .font-mafia { font-family: 'Playfair Display', serif; }
+
+        /* Gold Gradient Text */
+        .gold-text {
+            background: linear-gradient(to bottom, #c5a059 20%, #f7ef8a 50%, #c5a059 80%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glassmorphism with Dark Red Border */
+        .mafia-card {
+            background: rgba(15, 15, 15, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(139, 0, 0, 0.2);
+            transition: all 0.5s ease;
+        }
+
+        .mafia-card:hover {
+            border-color: var(--mafia-red);
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.3);
+            transform: translateY(-10px);
+        }
+
+        /* Hero Overlay */
+        .hero-overlay {
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.15) 0%, rgba(5, 5, 5, 1) 80%);
+        }
+
+        .btn-mafia {
+            padding: 12px 35px;
+            border: 1px solid var(--mafia-gold);
+            color: var(--mafia-gold);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
+            transition: 0.5s;
+        }
+
+        .btn-mafia:hover {
+            color: white;
+            background: var(--mafia-red);
+            border-color: var(--mafia-red);
+            box-shadow: 0 0 20px var(--mafia-red);
+        }
+
+        /* Smooth Shadow */
+        .shadow-elite {
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
+        }
+
+
+
+
+        /* Omerta Protocol: Prevent Selection */
+* {
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10+ */
+    user-select: none; /* Standard syntax */
+    -webkit-user-drag: none; /* Prevent image dragging */
+}
+
+/* Form inputs ko allow karein taaki user password likh sake */
+input, textarea {
+    -webkit-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+
+
+/* --- VAULT ANIMATIONS --- */
+
+/* Glowing Red Border Animation */
+.mafia-border-glow {
+    position: relative;
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    animation: neon-flicker 3s infinite alternate;
+}
+
+@keyframes neon-flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        border-color: rgba(139, 0, 0, 0.5);
+        box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
+    }
+    20%, 22%, 24%, 55% {
+        border-color: #ff0000;
+        box-shadow: 0 0 20px #ff0000;
+    }
+}
+
+/* Fingerprint Pulse */
+.fingerprint-scanner {
+    font-size: 60px;
+    color: #8b0000;
+    cursor: pointer;
+    transition: 0.3s;
+    position: relative;
+}
+.fingerprint-scanner::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; height: 80px;
+    border: 2px solid #8b0000;
+    border-radius: 50%;
+    animation: pulse-ring 2s infinite;
+}
+
+@keyframes pulse-ring {
+    0% { width: 60px; height: 60px; opacity: 1; }
+    100% { width: 120px; height: 120px; opacity: 0; }
+}
+
+/* Scanline Effect */
+.scanline {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 0, 0, 0.2);
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    animation: scan 4s linear infinite;
+}
+
+@keyframes scan {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* Loading Bar */
+.mafia-progress {
+    width: 0%;
+    height: 2px;
+    background: #8b0000;
+    box-shadow: 0 0 10px #ff0000;
+    transition: 0.5s;
+}
+
+
+/* --- SECTION STYLING --- */
+.sub-section { min-height: 80vh; animation: fadeIn 0.8s ease forwards; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Observation Boxes */
+.obs-box {
+    padding: 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+    color: #555;
+    font-size: 11px;
+    text-transform: uppercase;
+    transition: 0.4s;
+    border-left: 2px solid transparent;
+}
+.obs-box:hover {
+    border-color: #8b0000;
+    border-left-color: #8b0000;
+    color: white;
+    background: rgba(139, 0, 0, 0.05);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* Security Grid Scanner */
+.sg-scanner {
+    width: 300px;
+    height: 150px;
+    background: #080808;
+    border: 1px solid #333;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.sg-line {
+    width: 100%;
+    height: 2px;
+    background: #8b0000;
+    position: absolute;
+    box-shadow: 0 0 10px #ff0000;
+    animation: scanMove 3s linear infinite;
+}
+@keyframes scanMove { 0% { top: 0; } 100% { top: 100%; } }
+
+/* General Text Styles */
+.gold-text { color: #c5a059; }
+
+    </style>
+</head>
+<body>
+
+<div id="dashboard">
+    <!-- Top Navigation -->
+    <nav class="fixed w-full z-50 px-10 py-6 flex justify-between items-center bg-black/80 backdrop-blur-lg border-b border-white/5">
+        <div class="font-mafia text-3xl font-black tracking-tighter text-white uppercase italic">
+            WHO<span class="gold-text">Mafias </span>
+        </div>
+        <div class="hidden md:flex space-x-10 text-[10px] font-bold uppercase tracking-[0.3em] text-gray-400">
+            <a href="#about" class="hover:text-red-600 transition">Briefing</a>
+            <a href="#services" class="hover:text-red-600 transition">Operations</a>
+            <a href="#team" class="hover:text-red-600 transition">The Family</a>
+            <a href="#contact" class="hover:text-red-600 transition">Establish Line</a>
+        </div>
+        <div>
+           
+<div onclick="toggleMenu()" class="cursor-pointer">
+    <i class="fas fa-bars text-white text-xl hover:text-red-600 transition"></i>
+</div>
+
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-center text-center overflow-hidden hero-overlay">
+        <div class="container mx-auto px-6 relative z-10" data-aos="zoom-out" data-aos-duration="1500">
+            <h2 class="text-red-700 font-bold tracking-[0.5em] uppercase text-sm mb-4">The Elite Underground Mafias</h2>
+            <h1 class="font-mafia text-7xl md:text-[120px] font-black text-white mb-6 italic leading-none">
+                WHO <span class="gold-text">MAFIAS</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-500 font-light tracking-[0.3em] uppercase mb-12 max-w-2xl mx-auto">
+               Power doesn’t announce itself. It arrives silently. 
+            </p>
+            <div class="flex flex-col md:flex-row justify-center gap-8">
+                <a href="#services" class="btn-mafia">The Operations</a>
+                <a href="#contact" class="px-10 py-4 bg-white/5 text-gray-300 font-bold hover:text-white transition uppercase tracking-widest border border-white/10 italic">Join the Mafias</a>
+            </div>
+        </div>
+        <!-- Abstract Smoke Effect placeholder -->
+        <div class="absolute inset-0 opacity-20 pointer-events-none">
+            <img src="https://www.transparenttextures.com/patterns/asfalt-dark.png" class="w-full h-full object-cover">
+        </div>
+    </header>
+
+    <!-- About Section (Briefing) -->
+    <section id="about" class="py-32 container mx-auto px-6 border-b border-red-900/10">
+        <div class="grid md:grid-cols-2 gap-20 items-center">
+            <div data-aos="fade-up">
+                <span class="text-red-600 font-bold uppercase tracking-widest text-xs">Our Code</span>
+                <h2 class="font-mafia text-5xl font-bold text-white uppercase mt-4 mb-8 italic">Silence is Power. <br>Strategy is Key.</h2>
+                <p class="text-gray-400 text-lg leading-relaxed mb-8 font-light">
+                    WHO MAFIAS is not just an Network, it is a Hidden conglomerate operating beyond the visible system. We dont exist in the Front  we operate in silence, building Hidden dominance layer by layer. In this hidden network, power is not claimed, it is engineered.
+                </p>
+                <ul class="space-y-4 text-sm tracking-widest uppercase font-bold text-gray-500">
+                    <li><i class="fas fa-check text-red-600 mr-2"></i> No announcements. No attention. Only execution.</li>
+                    <li><i class="fas fa-check text-red-600 mr-2"></i> We dont follow trends</li>
+                    <li><i class="fas fa-check text-red-600 mr-2"></i> Private Client Network</li>
+                </ul>
+            </div>
+            <div class="relative" data-aos="fade-left">
+                <div class="absolute -inset-4 bg-red-900/10 blur-3xl"></div>
+                <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=800" alt="Mafia Executive" class="relative shadow-elite border border-white/10 grayscale hover:grayscale-0 transition-all duration-1000">
+            </div>
+        </div>
+    </section>
+
+    <!-- Services (Operations) -->
+    <section id="services" class="py-32 bg-[#080808]">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-20" data-aos="fade-down">
+                <h2 class="font-mafia text-5xl font-black text-white uppercase italic">Operations</h2>
+                <p class="text-red-600 tracking-[0.4em] uppercase text-xs mt-2 font-bold">What we handle for the Clients</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-10">
+                <!-- Operation 1 -->
+                <div class="mafia-card p-10 group" data-aos="fade-up">
+                    <div class="w-16 h-16 bg-red-950/30 flex items-center justify-center mb-8 border border-red-900/50">
+                        <i class="fas fa-shield-halved text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="font-mafia text-2xl font-bold text-white mb-4 uppercase">Secure Vault</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Safely handling client deals and providing security to ensure their information does not get leaked.</p>
+                </div>
+                <!-- Operation 2 -->
+                <div class="mafia-card p-10 group" data-aos="fade-up" data-aos-delay="100">
+                    <div class="w-16 h-16 bg-red-950/30 flex items-center justify-center mb-8 border border-red-900/50">
+                        <i class="fas fa-eye text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="font-mafia text-2xl font-bold text-white mb-4 uppercase">Shadow Intel</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Powered by Mafias Intel Network, deep analytics, and strategic forecasting to maintain continuous market leadership and elite-level dominance.</p>
+                </div>
+                <!-- Operation 3 -->
+                <div class="mafia-card p-10 group" data-aos="fade-up" data-aos-delay="200">
+                    <div class="w-16 h-16 bg-red-950/30 flex items-center justify-center mb-8 border border-red-900/50">
+                        <i class="fas fa-chess-knight text-2xl text-red-600"></i>
+                    </div>
+                    <h3 class="font-mafia text-2xl font-bold text-white mb-4 uppercase">BlackCore System</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">It is not a hidden network, it is a powerful market-operating system where only selected individuals can enter the market. <br> No one knows anyone here.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<!-- ================= THE FAMILY SECTION START ================= -->
+<section id="team" class="py-32 bg-black overflow-hidden">
+    <div class="container mx-auto px-6">
+        <!-- Section Header -->
+        <div class="text-center mb-20" data-aos="fade-down">
+            <h2 class="font-mafia text-5xl font-black text-white uppercase italic">The Family</h2>
+            <p class="text-red-600 tracking-[0.5em] uppercase text-xs mt-3 font-bold">The Inner Circle of WHO MAFIAS</p>
+        </div>
+
+        <!-- Grid Layout: 3 Columns on Desktop, 6 Boxes total -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <!-- Member 1: The Don -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up">
+                <div class="h-[450px] overflow-hidden">
+<img 
+src="https://i.postimg.cc/Y24wmZMG/IMG-20260616-WA0005.jpg"
+alt="The Mafia"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The Mafia</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Ghost Vector</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Member 2: The Underboss -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-[450px] overflow-hidden">
+                    <img 
+src="https://i.postimg.cc/L5m6mVgq/IMG-20260616-WA0003.jpg"
+alt="The GangSter"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The GangSter</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Vector Brother</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Member 3: The Consigliere -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                <div class="h-[450px] overflow-hidden">
+                   <img 
+src="https://i.postimg.cc/Pq4d2wRk/dd0a7edef41a687796827624c576f96c.jpg"
+alt="The Mafia"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The Don</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Silent King</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Member 4: The Enforcer -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up">
+                <div class="h-[450px] overflow-hidden">
+                   <img 
+src="https://i.postimg.cc/5NLy86b4/whomafias-hitman.jpg"
+alt="Who Mafias Hitman"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The HitMan</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Night Hunter</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Member 5: The Fixer -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up" data-aos-delay="100">
+                <div class="h-[450px] overflow-hidden">
+                   <img 
+src="https://i.postimg.cc/RC3NVgYN/whomafias-fixer.jpg"
+alt="Who Mafias Fixer"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The Fixer</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Cipher Fixer</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+
+            <!-- Member 6: The Ghost -->
+            <div class="relative group overflow-hidden border border-white/10 mafia-card shadow-2xl" data-aos="fade-up" data-aos-delay="200">
+                <div class="h-[450px] overflow-hidden">
+                    <img 
+src="https://i.postimg.cc/Vkzt6jMH/whomafias-ghost.jpg"
+alt="Who Mafias Ghost"
+class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700"
+/>
+                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent flex flex-col justify-end p-8">
+                    <span class="text-red-600 font-bold uppercase tracking-widest text-[10px] mb-1">The Ghost</span>
+                    <h3 class="font-mafia text-3xl font-bold text-white italic gold-text">Night Soldier</h3>
+                    <div class="w-0 group-hover:w-full h-[2px] bg-red-700 transition-all duration-500 mt-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- ================= THE FAMILY SECTION END ================= -->
+
+    <!-- Contact (The Sit-Down) -->
+<!-- Establish Contact (The Sit-Down) -->
+<footer id="contact" class="py-32 bg-black">
+    <div class="container mx-auto px-6">
+        <div class="grid md:grid-cols-2 gap-20">
+            <div data-aos="fade-right">
+                <h2 class="font-mafia text-6xl font-black text-white uppercase italic mb-8">The <br><span class="gold-text">Sit-Down</span></h2>
+                <p class="text-gray-500 mb-10 text-lg">Ready to expand your empire? Contact our handlers for a secure consultation. Confidentiality guaranteed.</p>
+                <div class="space-y-6 text-sm tracking-[0.2em] font-bold text-gray-400">
+                    <p class="hover:text-red-600 transition"><i class="fas fa-envelope-open-text mr-4 text-red-600"></i> WhoMafias@gmail.com</p>
+                    <p class="hover:text-red-600 transition"><i class="fas fa-location-arrow mr-4 text-red-600"></i> UNDISCLOSED LOCATION - SERVER 09.7.01</p>
+                </div>
+            </div>
+            
+            <!-- Database Form -->
+            <form id="mafia-contact-form" class="space-y-6 bg-white/5 p-10 border border-white/5 shadow-2xl" data-aos="fade-left">
+                <div class="grid md:grid-cols-2 gap-6">
+                    <input type="text" name="Name" placeholder="IDENTITY" required class="w-full bg-black border border-white/10 p-5 text-white focus:border-red-700 outline-none uppercase text-xs tracking-widest">
+                    <input type="email" name="Email" placeholder="SECURE MAIL" required class="w-full bg-black border border-white/10 p-5 text-white focus:border-red-700 outline-none uppercase text-xs tracking-widest">
+                </div>
+                <textarea name="Message" placeholder="PROPOSAL / INTEL" rows="5" required class="w-full bg-black border border-white/10 p-5 text-white focus:border-red-700 outline-none uppercase text-xs tracking-widest"></textarea>
+                <button type="submit" id="submit-btn" class="btn-mafia w-full py-5">Transmit Intel</button>
+                <p id="form-status" class="text-[10px] uppercase tracking-widest text-center mt-4 hidden"></p>
+            </form>
+        </div>
+    </div>
+</footer>
+            
+            <div class="mt-7 pt-5 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-gray-600 text-[8px] tracking-[1em] uppercase font-bold"> 
+            <p>  &copy; 2025 WHO MAFIAS NETWORK. ALL RIGHTS RESERVED.</p>
+            </div>
+            <br>
+                
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 1000,
+            once: true,
+            offset: 200
+        });
+
+        // Menu Toggle Function
+function toggleMenu() {
+    const menu = document.getElementById('menu-overlay');
+    menu.classList.toggle('translate-x-full');
+}
+
+// Open Specific Section Page
+function openSection(id) {
+    // 1. Hide Menu
+    toggleMenu();
+    
+    // 2. Hide Dashboard
+    document.getElementById('dashboard').style.display = 'none';
+    
+    // 3. Show Sections Container
+    const container = document.getElementById('sections-container');
+    container.classList.remove('hidden');
+    
+    // 4. Hide all sub-sections first
+    const subs = document.querySelectorAll('.sub-section');
+    subs.forEach(s => s.classList.add('hidden'));
+    
+    // 5. Show only the clicked section
+    document.getElementById(id).classList.remove('hidden');
+    
+    // Scroll to top
+    window.scrollTo(0, 0);
+}
+
+// Back to Dashboard Function
+function backToDashboard() {
+    // 1. Hide Sections Container
+    document.getElementById('sections-container').classList.add('hidden');
+    
+    // 2. Show Dashboard
+    document.getElementById('dashboard').style.display = 'block';
+    
+    // Refresh AOS animations
+    AOS.refresh();
+}
+
+
+
+
+// COMMENT SENDER
+
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwfpUnulVkAt_aktMvjzE2A4KPL45GgZ5A2tFIkZ0vDZimK660QbQp6GNHQdroNKH99Uw/exec'
+const form = document.getElementById('mafia-contact-form')
+const btn = document.getElementById('submit-btn')
+const status = document.getElementById('form-status')
+
+form.addEventListener('submit', e => {
+    e.preventDefault()
+    btn.disabled = true
+    btn.innerHTML = "TRANSMITTING..."
+    status.classList.remove('hidden')
+    status.innerHTML = "Establishing Secure Connection..."
+    status.style.color = "#c5a059"
+
+    fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => {
+            btn.disabled = false
+            btn.innerHTML = "Transmit Intel"
+            status.innerHTML = "Intel Received. Connection Terminated."
+            status.style.color = "#00ff00"
+            form.reset()
+            setTimeout(() => { status.classList.add('hidden') }, 5000)
+        })
+        .catch(error => {
+            btn.disabled = false
+            btn.innerHTML = "Transmit Intel"
+            status.innerHTML = "Transmission Failed. Signal Lost."
+            status.style.color = "#ff0000"
+            console.error('Error!', error.message)
+        })
+})
+
+
+
+
+// --- OMERTA SECURITY PROTOCOL ---
+
+// 1. Disable Right-Click
+document.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    
+});
+
+// 2. Disable Keyboard Shortcuts
+document.onkeydown = function(e) {
+    // Disable F12 (DevTools)
+    if (e.keyCode == 123) {
+        alert("SECURITY ALERT: System Breach Attempted.");
+        return false;
+    }
+
+    // Disable Ctrl+Shift+I (Inspect)
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+        return false;
+    }
+
+    // Disable Ctrl+Shift+J (Console)
+    if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+        return false;
+    }
+
+    // Disable Ctrl+U (View Source)
+    if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+        alert("ENCRYPTION ACTIVE: Source is hidden.");
+        return false;
+    }
+
+    // Disable Ctrl+S (Save Page)
+    if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+        return false;
+    }
+};
+
+// 3. DevTools Detection (Optional: Open hone par page clear kar dega)
+/*
+setInterval(function() {
+    if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
+        document.body.innerHTML = "<h1 style='color:red; text-align:center; margin-top:20%; font-family:serif;'>OMERTÀ VIOLATED: SYSTEM SELF-DESTRUCTED</h1>";
+    }
+}, 1000);
+*/
+
+
+function toggleMafiaMusic() {
+    const audio = document.getElementById('mafia-bg-music');
+    const icon = document.getElementById('music-icon');
+
+    if (audio.paused) {
+        audio.play();
+        icon.classList.remove('fa-volume-mute');
+        icon.classList.add('fa-volume-up');
+        icon.style.color = "#8b0000"; // Active Red
+    } else {
+        audio.pause();
+        icon.classList.remove('fa-volume-up');
+        icon.classList.add('fa-volume-mute');
+        icon.style.color = "#555"; // Muted Gray
+    }
+}
+
+
+
+const pulseAPI = 'https://script.google.com/macros/s/AKfycbxiiAmYBaQb9QQstsyqQO_XviKlUjHfymCm-0X87k8C4gWm4Zn1hk4Qmf6mChwJ8SLl/exec';
+
+function updateLivePulse() {
+    fetch(pulseAPI)
+    .then(res => res.json())
+    .then(data => {
+        // Smoothly animate the numbers
+        animateValue("market-items-count", 0, data.items, 2000);
+        animateValue("active-members-count", 0, data.members, 2000);
+    })
+    .catch(err => console.log("Pulse sync delayed..."));
+}
+
+function animateValue(id, start, end, duration) {
+    const obj = document.getElementById(id);
+    if (!obj) return;
+    let startTimestamp = null;
+    const step = (timestamp) => {
+        if (!startTimestamp) startTimestamp = timestamp;
+        const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+        obj.innerHTML = Math.floor(progress * (end - start) + start);
+        if (progress < 1) {
+            window.requestAnimationFrame(step);
+        }
+    };
+    window.requestAnimationFrame(step);
+}
+
+// Har 3 minute baad sync karein
+setInterval(updateLivePulse, 180000);
+
+// Jab Network Hub khulay tab foran update karein
+function openNetworkHub() {
+    openSection('network-hub');
+    updateLivePulse();
+}
+
+
+
+let roadmapMusic = document.getElementById('roadmap-music');
+let roadIcon = document.getElementById('road-music-icon');
+
+function toggleRoadmapMusic() {
+    if (roadmapMusic.paused) {
+        roadmapMusic.volume = 0.5;
+        roadmapMusic.play();
+        roadIcon.classList.replace('fa-volume-mute', 'fa-volume-up');
+    } else {
+        roadmapMusic.pause();
+        roadIcon.classList.replace('fa-volume-up', 'fa-volume-mute');
+    }
+}
+
+// Glitch Loading Bar Animation
+function toggleRoadmapMusic() {
+    const roadAudio = document.getElementById('roadmap-music');
+    const roadIcon = document.getElementById('road-music-icon');
+
+    if (!roadAudio) return;
+
+    if (roadAudio.paused) {
+        // Pehle volume set karein
+        roadAudio.volume = 0.5; 
+        
+        // Play command
+        roadAudio.play().then(() => {
+            roadIcon.classList.remove('fa-volume-mute');
+            roadIcon.classList.add('fa-volume-up');
+            roadIcon.style.color = "#ff0000"; // Playing state color
+        }).catch(err => {
+            console.log("Playback blocked. Click anywhere on page first.");
+        });
+    } else {
+        roadAudio.pause();
+        roadIcon.classList.remove('fa-volume-up');
+        roadIcon.classList.add('fa-volume-mute');
+        roadIcon.style.color = "#555"; // Paused state color
+    }
+}
+
+// Isay trigger karein jab section khule
+// Aapke openSection('system-status') ke andar ye call honi chahiye
+
+
+    </script>
+</div>
+
+<!-- ================= FULL SCREEN MENU OVERLAY ================= -->
+<div id="menu-overlay" class="fixed inset-0 z-[100] bg-black/fb backdrop-blur-2xl translate-x-full transition-transform duration-500 flex flex-col items-center justify-center">
+    <button onclick="toggleMenu()" class="absolute top-10 right-10 text-white text-3xl hover:text-red-600 transition">
+        <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="flex flex-col space-y-6 text-center">
+        <h2 class="text-red-700 font-bold tracking-[0.5em] uppercase text-[10px] mb-4">Command Center</h2>
+        <a href="javascript:void(0)" onclick="openSection('access-layer')" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition">Access Layer</a>
+        <a href="UserProfile.html" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition"> Security Grid</a>
+        <a href="javascript:void(0)" onclick="openSection('command-protocol')" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition">Command Protocol</a>
+        <a href="javascript:void(0)" onclick="openNetworkHub('network-hub')" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition">Mafias Network</a>
+        <a href="javascript:void(0)" onclick="openSection('system-status')" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition">The Origin</a>
+        <a href="Market.html" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition"> Black Vault Market</a>
+        <a href="javascript:void(0)" onclick="openSection('signal-channel')" class="font-mafia text-4xl text-white hover:text-red-600 hover:italic transition">Mafias Broadcast</a>
+    </div>
+</div>
+
+<!-- ================= 7 SECTIONS CONTAINER ================= -->
+<div id="sections-container" class="hidden fixed inset-0 z-[110] bg-[#050505] overflow-y-auto font-mafia">
+    
+<!-- Roadmap Specific Music (High Stability Link) -->
+<audio id="roadmap-music" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" type="audio/mpeg">
+</audio>
+ 
+    <!-- Back Button -->
+    <div class="fixed top-8 left-8 z-[120]">
+        <button onclick="backToDashboard()" class="flex items-center space-x-4 text-gray-500 hover:text-red-600 transition group">
+            <div class="w-10 h-10 border border-gray-800 flex items-center justify-center rounded-full group-hover:border-red-600">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <span class="text-[10px] font-bold uppercase tracking-[0.3em]">Dashboard</span>
+        </button>
+    </div>
+
+  <!-- Option 1: Dark Mafia Ambience (Stable) -->
+<audio id="mafia-bg-music" loop preload="auto">
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg">
+</audio>
+
+
+<!-- Agar upar wala na chale toh is link ko src mein daal dena: 
+     https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3 
+-->
+
+    <div class="container mx-auto px-6 py-32">
+
+        <!-- 1. ACCESS LAYER (THE MAFIA ACADEMY) -->
+        <div id="access-layer" class="sub-section hidden relative">
+            <div class="flex justify-between items-center mb-16 border-b border-red-900/30 pb-8">
+                <div>
+                    <h1 class="text-6xl text-white italic gold-text uppercase">Access <span class="text-white">Layer</span></h1>
+                    <p class="text-red-700 font-mono text-[10px] tracking-[0.5em] mt-2 uppercase">Protocol Omertà: Active</p>
+                </div>
+              <button onclick="toggleMafiaMusic()" class="p-4 border border-white/10 hover:border-red-600 transition">
+    <i id="music-icon" class="fas fa-volume-mute"></i>
+</button>
+            </div>
+
+            <!-- Rules & Roadmap -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
+                <div class="mafia-card p-10 border-l-4 border-red-700 bg-red-950/5">
+                    <h3 class="text-white gold-text text-sm font-bold uppercase mb-6 underline">THE CODE OF SILENCE</h3>
+                    <ul class="text-gray-400 font-mono text-xs space-y-4">
+                        <li>> YOUR PAST IS A DELETED FILE.</li>
+                        <li>> SILENCE IS THE ONLY PUBLIC LANGUAGE.</li>
+                        <li>> EVERY SHADOW HIDES A STORY.</li>
+                        <li>> NEVER DISCLOSE THE ORIGIN OF WEALTH.</li>
+                        <li>> POWER MOVES WHERE EYES CANNOT SEE.</li>
+                        <li>> RESPECT THE CODE OR LEAVE THE NETWORK.</li>
+                        <li>> SECRETS ARE THE CURRENCY OF THE ELITE.</li>
+                        <li>> SPEAK LESS. OBSERVE MORE.</li>
+                        <li>> THE STRONGEST ALLIANCES ARE NEVER PUBLIC.</li>
+                        <li>> IN DARKNESS, REPUTATION IS EVERYTHING.</li>
+                        <li>> CONTROL YOUR EMOTIONS OR THEY CONTROL YOU.</li>
+                        <li>> INFORMATION IS POWER.</li>
+                        <li>> MOVE WITHOUT NOISE.</li>
+                        <li>> NEVER BE PREDICTABLE.</li>
+                        <li>> THE NETWORK REMEMBERS EVERYTHING.</li>
+                        <li>> QUIET MINDS BUILD EMPIRES.</li>
+                        <li>> FEAR IS A TOOL.</li>
+                        <li>> LEGENDS ARE WRITTEN IN SILENCE.</li>
+                        <li>> TRUST IS A ONE-TIME ACCESS KEY.</li>
+                        <li>> EVERY MOVE LEAVES NO TRACE.</li>
+                        <li>> UNKNOWN PATHS CREATE TRUE POWER.</li>
+                        <li>> WORDS ARE WEAK COMPARED TO ACTIONS.</li>
+                        <li>> NEVER STORE YOUR WEAKNESS ONLINE.</li>
+                        <li>> THE SYSTEM REWARDS INVISIBLE PLAYERS.</li>
+                        <li>> CONTROL IS BUILT IN SILENCE.</li>
+                        <li>> NO RECORD MEANS NO LIMITS.</li>
+                        <li>> HIDDEN MINDS SHAPE OPEN WORLDS.</li>
+                        <li>> OBSERVATION IS THE FIRST WEAPON.</li>
+                        <li>> DISAPPEAR BEFORE YOU ARE TRACKED.</li>
+                        <li>> KNOWLEDGE WITHOUT EXPOSURE IS WEALTH.</li>
+                        <li>> EVERY CONNECTION MUST BE UNTRACEABLE.</li>
+                        <li>> POWER FLOWS THROUGH ANONYMITY.</li>
+                        <li>> THE QUIET ONES ALWAYS LAST LONGER.</li>
+                        <li>> NEVER BE THE CENTER OF ATTENTION.</li>
+                        <li>> SECRECY BUILDS UNBREAKABLE EMPIRES.</li>
+                        <li>> MOVE LIKE YOU WERE NEVER THERE.</li>
+                        <li>> TRUTH IS SAFEST WHEN UNSPOKEN.</li>
+                        <li>> ONLY THE INVISIBLE CAN RULE EVERYTHING.</li>
+
+                    </ul>
+                </div>
+                <div class="mafia-card p-10 border-r-4 border-red-800 bg-black">
+                    <h3 class="text-white text-sm font-bold uppercase mb-6 italic tracking-widest">THE CHAIN OF MAFIAS</h3>
+                    <div class="space-y-6">
+                    
+                    
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Whisper (The First Voice)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Shadow (The Hidden One)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Specter (The Unseen Presence)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Phantom (The Silent Walker)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Raven (The Messenger)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Viper (The Silent Strike)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Reaper (The Collector)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Warden (The Gatekeeper)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Sentinel (The Watchful Eye)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Executor (The Final Hand)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Architect (The Master Planner)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Overseer (The All-Seeing Eye)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Council (The Inner Circle)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Director (The Guiding Force)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Master (The Supreme Mind)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Overlord (The Dominant Power)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Supreme (The Highest Authority)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Throne (The Seat of Power)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Legacy (The Eternal Name)</p></div>
+
+<div class="flex items-center space-x-4"><div class="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div><p class="text-[10px] uppercase text-white font-bold">Immortal (Beyond All Limits)</p></div>
+
+<h2 class="font-mafia text-7xl md:text-[20px] font-black text-white mb-6 italic leading-none">Underworld <span class="gold-text"> Link</span> </h2>
+<p>It is a hidden system that is not visible openly. In this system, decisions are made without anyone’s names, and no proof or trace is left behind. </p>
+<p>In this structure, every connection is a pathway that leads deeper into hidden networks. Everything is planned; nothing is random, and monitoring is always ongoing.</p>
+<p>In this system, you cannot show your presence. You must influence from a distance, using silence and secrecy as your protection and weapon.</p>
+<p>Understanding the Underworld Link <span style="color:red;">WHO-MAFIAS NETWORK</span> means understanding that real power is only partially visible on the surface of the internet. It works quietly, changes systems, and then disappears without being noticed.</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Normalcy Protocol -->
+            <div class="mafia-card p-12 text-center mb-20 bg-[url('https://www.transparenttextures.com/patterns/asfalt-dark.png')]">
+                <h3 class="text-red-600 text-xs font-bold uppercase tracking-[0.5em] mb-6">The Ghost Protocol (Staying Normal)</h3>
+                <p class="text-gray-400 italic text-lg leading-relaxed max-w-3xl mx-auto">
+                    "To the world, you are a ghost. You work a 9-5, you pay your taxes, and you never stand out. Never let your internal fire burn your external mask."
+                </p>
+            </div>
+
+            <!-- 30 Observation Lines -->
+            <h3 class="text-center text-white gold-text text-2xl uppercase tracking-[0.8em] mb-12 italic">Psychology of the Ghosts</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-50">
+                <div class="obs-box">1. If he talks too much about power, he has none.</div>
+                <div class="obs-box">2. Pupils don't lie; watch them during a deal.</div>
+                <div class="obs-box">3. A man who apologizes twice is planning betrayal.</div>
+                <div class="obs-box">4. The loudest person is the biggest target.</div>
+                <div class="obs-box">5. A silent enemy is deadlier than a barking dog.</div>
+                <div class="obs-box">6. Never trust a man who has nothing to lose.</div>
+                <div class="obs-box">7. Calmness in chaos is the sign of an elite.</div>
+                <div class="obs-box">8. If a deal is too good, you are the product.</div>
+                <div class="obs-box">9. Respect is earned in blood, kept in silence.</div>
+                <div class="obs-box">10. Fear is a tool; use it, but never own it.</div>
+                <div class="obs-box">11. Observe how he treats people useless to him.</div>
+                <div class="obs-box">12. Small talk is for the weak; trade intel.</div>
+                <div class="obs-box">13. A man who can't keep a secret, loses his life.</div>
+                <div class="obs-box">14. Every smile in business is a hidden invoice.</div>
+                <div class="obs-box">15. Pulling a weapon is the last resort.</div>
+                <div class="obs-box">16. Weakness is often masked by loud aggression.</div>
+                <div class="obs-box">17. Money talks, but true wealth whispers.</div>
+                <div class="obs-box">18. Judge a man by his enemies, not friends.</div>
+                <div class="obs-box">19. Hide your best secrets in plain sight.</div>
+                <div class="obs-box">20. An honest man in a corrupt system is a fool.</div>
+                <div class="obs-box">21. Speed is a skill, but accuracy is final.</div>
+                <div class="obs-box">22. Keep your lies close to the truth.</div>
+                <div class="obs-box">23. A handshake is a blood-contract.</div>
+                <div class="obs-box">24. Trust always shows cracks once broken.</div>
+                <div class="obs-box">25. Know when to listen; it’s a superpower.</div>
+                <div class="obs-box">26. Strategy beats strength in every war.</div>
+                <div class="obs-box">27. Reputation is your bulletproof vest.</div>
+                <div class="obs-box">28. Revenge is best served cold and calculated.</div>
+                <div class="obs-box">29. If you stand for nothing, you’ll fall.</div>
+                <div class="obs-box">30. Sequences in the Mafia's code.</div>
+                <div class="obs-box">31. A calm face often hides the most active mind.</div>
+                <div class="obs-box">32. The way someone listens tells more than what they say.</div>
+                <div class="obs-box">33. People repeat what they are not confident about.</div>
+                <div class="obs-box">34. Silence during pressure reveals real intelligence.</div>
+                <div class="obs-box">35. Eye movement often exposes hidden discomfort.</div>
+                <div class="obs-box">36. Fake confidence always breaks under questioning.</div>
+                <div class="obs-box">37. A controlled person never rushes their answers.</div>
+                <div class="obs-box">38. Nervous hands show what words are hiding.</div>
+                <div class="obs-box">39. Over-explaining is often a sign of hidden truth.</div>
+                <div class="obs-box">40. A relaxed posture hides strong mental control.</div>
+                <div class="obs-box">41. People avoid eye contact when they feel exposed.</div>
+                <div class="obs-box">42. The quieter the person, the more they observe.</div>
+                <div class="obs-box">43. Sudden change in tone reveals emotional instability.</div>
+                <div class="obs-box">44. Those who smile too much often hide tension.</div>
+                <div class="obs-box">45. Real confidence does not require validation.</div>
+                <div class="obs-box">46. Defensive behavior always signals insecurity.</div>
+                <div class="obs-box">47. Fast replies often hide incomplete thinking.</div>
+                <div class="obs-box">48. A strong mind reacts less and analyzes more.</div>
+                <div class="obs-box">49. Truth does not require effort to explain.</div>
+                <div class="obs-box">50. Observation is more powerful than conversation.</div>
+
+
+            </div>
+        </div>
+
+        <!-- 2. SECURITY GRID -->
+        <div id="security-grid" class="sub-section hidden text-center">
+          
+        </div>
+
+        <!-- 3. COMMAND PROTOCOL -->
+        <!-- ================= 3. COMMAND PROTOCOL (THE DIRECTIVES) ================= -->
+<div id="command-protocol" class="sub-section hidden font-mafia">
+    
+    <!-- Page Header -->
+    <header class="mb-20 border-b border-red-900/30 pb-10 text-center md:text-left" data-aos="fade-down">
+        <h1 class="text-6xl md:text-8xl font-bold text-white italic uppercase tracking-tighter">Command <span class="gold-text">Protocol</span></h1>
+        <p class="text-red-700 font-mono text-xs tracking-[0.6em] mt-4 uppercase animate-pulse">Classification: Top Secret // Eyes Only</p>
+    </header>
+
+    <!-- Top Grid: Rules & Member Guidelines -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-32">
+        
+        <!-- 📜 Rules of the Network -->
+        <div class="mafia-card p-10 border-l-4 border-red-800 bg-red-950/5 relative overflow-hidden" data-aos="fade-right">
+            <div class="absolute top-0 right-0 p-4 opacity-10"><i class="fas fa-gavel text-6xl text-white"></i></div>
+            <h3 class="text-white gold-text text-xl font-bold uppercase tracking-widest mb-8 underline decoration-red-900">📜 Rules of the Network</h3>
+            <ul class="space-y-4 font-mono text-[11px] text-gray-400">
+                <li class="flex items-start"><span class="text-red-700 mr-3">01.</span> Silence creates more power than noise.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">02.</span> Every action leaves a trace.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">03.</span> Reputation is earned, never claimed.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">04.</span> Information is protected, not traded.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">05.</span> Loyalty is built through consistency.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">06.</span> Discipline defeats talent without discipline.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">07.</span> Think before transmitting.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">08.</span> Respect the network and its members.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">09.</span> Protect your identity and your access.</li>
+                <li class="flex items-start"><span class="text-red-700 mr-3">10.</span> Results speak louder than promises.</li>
+            </ul>
+        </div>
+
+        <!-- 👤 Member Guidelines -->
+        <div class="mafia-card p-10 border-r-4 border-red-800 bg-black relative overflow-hidden" data-aos="fade-left">
+            <div class="absolute top-0 left-0 p-4 opacity-10"><i class="fas fa-user-shield text-6xl text-white"></i></div>
+            <h3 class="text-white gold-text text-xl font-bold uppercase tracking-widest mb-8 text-right underline decoration-red-900">👤 Member Guidelines</h3>
+            <ul class="space-y-4 font-mono text-[11px] text-gray-400 text-right">
+                <li>Maintain professional behavior. <span class="text-red-700 ml-3">/ 01</span></li>
+                <li>Protect account credentials. <span class="text-red-700 ml-3">/ 02</span></li>
+                <li>share private access codes. <span class="text-red-700 ml-3">/ 03</span></li>
+                <li>Keep communications. <span class="text-red-700 ml-3">/ 04</span></li>
+                <li>Like/Report suspicious activity. <span class="text-red-700 ml-3">/ 05</span></li>
+                <li>Follow verification procedures & non verification. <span class="text-red-700 ml-3">/ 06</span></li>
+                <li>Use the system responsibly. <span class="text-red-700 ml-3">/ 07</span></li>
+                <li>Contribute positively to the network. <span class="text-red-700 ml-3">/ 08</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 🎯 MISSION BRIEFS (2 Per Line Grid) -->
+    <div class="mb-20">
+        <h3 class="text-center text-white text-3xl uppercase tracking-[0.8em] mb-16 italic gold-text" data-aos="zoom-in">🎯 Active Mission Briefs</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            
+            <!-- Mission 01 -->
+            <div class="mission-card group" data-aos="fade-up">
+                <div class="mission-img">
+                 <img src="https://i.postimg.cc/L6TyHd87/file-00000000623471fab3aaef94a014cfa8.png" alt="Chat System">
+                    <div class="mission-overlay"></div>
+                </div>
+                <div class="mission-content">
+                    <span class="mission-number">Mission 01</span>
+                    <h4 class="mission-title">Mafias Communication</h4>
+                    <p class="mission-desc text-xs text-gray-400 mb-6 italic">Mafias Developing a Private & Open World Chatting System.</p>
+                    <div class="mission-goals">
+                        <p>• Complete Network Structure</p>
+                        <p>• Verify Operative Users,Nodes</p>
+                        <p>• Activate Mafia Marketplace</p>
+                        <p>• Launch Private Signal System</p>
+                        <p>• Then Make PowerFull System</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission 02 -->
+            <div class="mission-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="mission-img">
+                   <img src="https://i.postimg.cc/DZ0gym8y/Chat-GPT-Image-Jun-15-2026-11-02-30-PM.png" alt="World Map">
+                    <div class="mission-overlay"></div>
+                </div>
+                <div class="mission-content">
+                    <span class="mission-number">Mission 02</span>
+                    <h4 class="mission-title">Global Expansion</h4>
+                    <p class="mission-desc text-xs text-gray-400 mb-6 italic">Expanding silent influence beyond visible borders into hidden global networks.</p>
+                    <div class="mission-goals text-green-700">
+                      <p>• Establish Undetectable Network Channels</p>
+                      <p>• Expand Influence Across Hidden Regions</p>
+                      <p>• Secure High-Level Strategic Alliances</p>
+                      <p>• Operate Beyond Public Visibility Zones</p>
+                      <p>• Strengthen Global Shadow Connections</p>
+                      <p>• Unlock Restricted Intelligence Paths</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission 03 -->
+            <div class="mission-card group" data-aos="fade-up">
+                <div class="mission-img">
+                     <img src="https://i.postimg.cc/j2bS4gmB/Chat-GPT-Image-Jun-15-2026-11-18-51-PM.png" alt="Analytics">
+                    <div class="mission-overlay"></div>
+                </div>
+                <div class="mission-content">
+                    <span class="mission-number">Mission 03</span>
+                    <h4 class="mission-title">Intelligence Gathering</h4>
+                    <p class="mission-desc text-xs text-gray-400 mb-6 italic">Deep surveillance, hidden data analysis, and predictive network intelligence for strategic control.</p>
+                    <div class="mission-goals">
+                      <p>• Monitor Underground Activity Patterns</p>
+                      <p>• Decode Hidden Digital Signals</p>
+                      <p>• Analyze Potential Threat Networks</p>
+                      <p>• Extract Strategic Intelligence Data</p>
+                      <p>• Forecast System Movements and Trends</p>
+                      <p>• Support High-Level Command Decisions</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission 04 -->
+            <div class="mission-card group" data-aos="fade-up" data-aos-delay="100">
+                <div class="mission-img">
+                <div style="margin-top:20px;">
+  <img src="https://i.postimg.cc/hjcc6zPt/Chat-GPT-Image-Jun-15-2026-11-53-17-PM.png" alt="Reputation" style="display:block; margin-top:5px;">
+</div>
+                    <div class="mission-overlay"></div>
+                </div>
+                <div class="mission-content">
+                    <span class="mission-number">Mission 04</span>
+                    <h4 class="mission-title">Inner Circle Rise</h4>
+                    <p class="mission-desc text-xs text-gray-400 mb-6 italic">Strengthening authority within the inner circle through trust, performance, and silent leadership influence.</p>
+                    <div class="mission-goals text-blue-700">
+                        <p>• Maintain Active Operational Status</p>
+                        <p>• Earn High-Command Trust Through Results</p>
+                        <p>• Strengthen Leadership Position in the Inner Circle</p>
+                        <p>• Build Unquestioned Reputation Within the Network</p>
+                        <p>• Demonstrate Silent but Effective Control</p>
+                        <p>• Secure Long-Term Strategic Influence</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mission 05 (Center on Full Width or start new row) -->
+            <div class="mission-card group md:col-span-2 max-w-2xl mx-auto" data-aos="zoom-in">
+                <div class="mission-img">
+                    <img src="https://i.postimg.cc/wTQNtJZZ/Chat-GPT-Image-Jun-16-2026-12-13-57-AM.png" alt="Vault">
+                    <div class="mission-overlay"></div>
+                </div>
+                <div class="mission-content">
+                    <span class="mission-number">Mission 05</span>
+                    <h4 class="mission-title">The Vault Protocol</h4>
+                    <p class="mission-desc text-xs text-gray-400 mb-6 italic">A high-security access system designed to protect classified layers of the inner network.</p>
+                    <div class="mission-goals text-red-600">
+                        <p>• Complete Identity & Clearance Verification</p>
+                        <p>• Fulfill High-Level Access Protocol Conditions</p>
+                        <p>• Authenticate Secure Entry Permissions</p>
+                        <p>• Unlock Restricted Intelligence Layers</p>
+                        <p>• Maintain Encrypted System Integrity</p>
+                        <p>• Grant Controlled Deep-Level Access</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* --- MISSION CARD STYLING --- */
+    .mission-card {
+        position: relative;
+        background: #080808;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        overflow: hidden;
+        transition: 0.5s;
+    }
+    .mission-card:hover {
+        border-color: #8b0000;
+        box-shadow: 0 0 30px rgba(139, 0, 0, 0.2);
+        transform: translateY(-5px);
+    }
+    .mission-img {
+        position: relative;
+        height: 250px;
+        overflow: hidden;
+    }
+    .mission-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        grayscale: 100%;
+        transition: 0.8s;
+    }
+    .mission-card:hover .mission-img img {
+        grayscale: 0%;
+        transform: scale(1.1);
+    }
+    .mission-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to bottom, transparent, #080808);
+    }
+    .mission-content {
+        padding: 30px;
+    }
+    .mission-number {
+        display: block;
+        color: #8b0000;
+        font-family: monospace;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        margin-bottom: 10px;
+    }
+    .mission-title {
+        font-size: 24px;
+        color: white;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+    .mission-goals {
+        font-family: monospace;
+        font-size: 11px;
+        color: #666;
+        line-height: 1.8;
+        border-top: 1px solid rgba(255,255,255,0.05);
+        padding-top: 15px;
+    }
+</style>
+
+        <!-- 4. NETWORK HUB -->
+       <div id="network-hub" class="sub-section hidden font-mafia">
+    
+    <!-- HEADER -->
+    <header class="mb-16 border-b border-white/5 pb-8 flex justify-between items-end">
+        <div>
+            <h1 class="text-6xl text-white italic gold-text uppercase"> Mafias <span class="text-white">Network</span></h1>
+            <p class="text-gray-500 font-mono text-[9px] tracking-[0.4em] uppercase">Global Traffic Control // Nodes Active</p>
+        </div>
+        <div class="text-right font-mono text-[9px]">
+            <p class="text-green-600 animate-pulse">● DATABASE_SYNC_ACTIVE</p>
+            <p class="text-gray-700">ENCRYPTION: AES-256</p>
+        </div>
+    </header>
+
+    <!-- LIVE STATISTICS (SYCED WITH SHEET) -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <!-- Market Items -->
+        <div class="mafia-card p-8 border-l-4 border-red-800 bg-red-950/5">
+            <h4 class="text-gray-500 text-[10px] uppercase mb-2">Live Marketplace Items</h4>
+            <div class="flex items-baseline gap-4">
+                <span id="market-items-count" class="text-5xl font-bold text-white font-mono">689</span>
+                <span class="text-green-600 text-xs animate-bounce"><i class="fas fa-caret-up"></i> LIVE</span>
+            </div>
+            <p class="text-[9px] text-gray-600 mt-4 uppercase">Our World Publish Items In Black Mafias Market</p>
+        </div>
+        <!-- Active Members -->
+        <div class="mafia-card p-8 border-l-4 border-red-800 bg-red-950/5">
+            <h4 class="text-gray-500 text-[10px] uppercase mb-2">Active Operatives</h4>
+            <div class="flex items-baseline gap-4">
+                <span id="active-members-count" class="text-5xl font-bold text-white font-mono">2946</span>
+                <span class="text-red-600 text-xs animate-pulse">CONNECTED</span>
+            </div>
+            <p class="text-[9px] text-gray-600 mt-4 uppercase">Real-time session monitoring</p>
+        </div>
+        <!-- Announcements -->
+        <div class="mafia-card p-8 border-l-4 border-red-800 bg-red-950/5">
+            <h4 class="text-gray-500 text-[10px] uppercase mb-2">Today's Transmissions</h4>
+            <div class="flex items-baseline gap-4">
+                <span class="text-5xl font-bold gold-text font-mono">03</span>
+            </div>
+            <p class="text-[9px] text-red-700 mt-4 uppercase font-bold">Mafias made 3 announcements today</p>
+        </div>
+    </div>
+
+    <!-- NODES & SECURITY GRID -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-20">
+        
+        <!-- Global Nodes List -->
+        <div class="lg:col-span-2 mafia-card p-10">
+            <h3 class="text-white text-sm font-bold uppercase tracking-widest mb-8 border-b border-white/5 pb-4">Global Network Nodes</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-[10px] font-mono text-gray-500 uppercase">
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Pakistan Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Russia Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> China Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> USA Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Germany Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Brazil Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> UK Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Japan Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> UAE Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Singapore Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Switzerland Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Turkey Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Canada Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Australia Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> France Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Italy Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Mexico Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Iran Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> India Node</div>
+                <div class="p-3 border border-white/5 hover:border-red-800 transition"><span class="text-red-600">●</span> Israel Node</div>
+            </div>
+            <p class="mt-8 text-gray-600 italic text-[11px]">Nodes are distributed relay servers that bounce our signals through 20+ countries to maintain 100% ghost visibility.</p>
+        </div>
+
+        <!-- Alerts / Dangerous Security Box -->
+        <div class="mafia-card p-10 bg-red-950/10 border-red-900/50 relative overflow-hidden flex flex-col justify-center">
+            <div class="absolute inset-0 nh-security-anim opacity-20"></div>
+            <h3 class="text-red-600 text-xs font-bold uppercase mb-6 relative z-10"><i class="fas fa-radiation-alt mr-2"></i> System Alerts</h3>
+            <div class="relative z-10 space-y-4">
+                <div class="h-1 w-full bg-red-900/30"><div class="h-full bg-red-600 animate-[shimmer_2s_infinite]" style="width: 80%"></div></div>
+                <p class="font-mono text-[9px] text-red-500 animate-pulse">> ANALYZING INTRUSION ATTEMPTS...</p>
+                <p class="font-mono text-[9px] text-gray-500">> FIREWALL LAYERS: 14/14 ACTIVE</p>
+                <p class="font-mono text-[9px] text-gray-500">> ENCRYPTION: ROTATING KEYS...</p>
+                <p class="font-mono text-[9px] text-green-600">> ALL NODES SECURE.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER INFO BOXES -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="mafia-card p-8 bg-black">
+            <h4 class="text-white text-xs font-bold uppercase mb-4 italic">Verified Profiles</h4>
+            <div class="p-4 border border-dashed border-gray-800 text-center">
+                <p class="text-gray-700 text-[10px] uppercase font-bold tracking-widest">Mafias Hide Verified Users</p>
+            </div>
+        </div>
+        <div class="md:col-span-2 mafia-card p-8 bg-red-900/5 border-red-900/20">
+            <h4 class="text-white text-xs font-bold uppercase mb-4 italic">Open Opportunities</h4>
+            <p class="text-gray-400 text-xs leading-relaxed">
+                Want to join the inner circle? High-tier operatives can gain permanent recognition. Go to the <span class="text-red-600 font-bold cursor-pointer" onclick="openSection('security-grid')">Security Grid</span> section to become a WHO-MAFIAS network member and verified user.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes shimmer { 0% { opacity: 0.3; } 50% { opacity: 1; } 100% { opacity: 0.3; } }
+    .nh-security-anim {
+        background: repeating-linear-gradient(0deg, rgba(139,0,0,0.1) 0px, rgba(139,0,0,0.1) 1px, transparent 1px, transparent 2px);
+        background-size: 100% 4px;
+        animation: scanMove 4s linear infinite;
+    }
+</style>
+
+        <!-- 5. SYSTEM STATUS -->
+        <!-- ================= 5. SYSTEM STATUS (THE ORIGIN ROADMAP) ================= -->
+<div id="system-status" class="sub-section hidden font-mafia relative">
+    
+    <!-- Top Header -->
+    <div class="flex justify-between items-center mb-20 border-b border-white/5 pb-8">
+        <div>
+            <h1 class="text-5xl md:text-7xl font-bold text-white italic uppercase tracking-tighter">THE<span class="gold-text">Origin</span></h1>
+            <p class="text-red-700 font-mono text-[9px] tracking-[0.6em] uppercase animate-pulse">Historical Archive // Data Decrypted</p>
+        </div>
+       <button onclick="toggleRoadmapMusic()" class="p-4 border border-red-900/30">
+    <i id="road-music-icon" class="fas fa-volume-mute"></i>
+</button>
+    </div>
+
+    <!-- VERTICAL TIMELINE ROADMAP -->
+    <div class="relative max-w-4xl mx-auto py-10">
+        <!-- Vertical Line -->
+        <div class="absolute left-0 md:left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-red-900 via-gray-800 to-transparent transform -translate-x-1/2"></div>
+
+        <!-- PHASE 01 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-0 md:text-right">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 01</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Observer</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">A young boy grows up watching how people chase attention, power, and influence. Instead of following the crowd, he chooses to observe. He studies systems, networks, technology, and the way information moves through the world.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 02 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-auto">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 02</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Builder</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">Years later, he creates his first website. It is small, simple, and unnoticed. While others search for recognition, he focuses on learning, improving, and building.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 03 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-0 md:text-right">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 03</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Signal</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">The website begins attracting like-minded individuals. A private community forms around shared ideas, creativity, and strategy. The network starts to grow quietly.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 04 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-auto">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 04</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Network</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">New members arrive. Communication channels are established. Security systems are created. The project evolves from a website into a structured digital network.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 05 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-0 md:text-right">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 05</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Vault</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">A restricted area known as the Black Vault is introduced. Access is granted only through verification. The Vault becomes the center of intelligence, records, and strategic information.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 06 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-auto">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 06</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Market</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">The network launches its own marketplace. Opportunities, services, projects, and collaborations are organized into a single ecosystem.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 07 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-0 md:text-right">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 07</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Nodes</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">Global nodes appear across different regions. Each node strengthens the network's reach, creating a larger and more connected system.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 08 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-auto">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 08</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">Intelligence Era</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">Advanced analytics and forecasting tools are introduced. Decisions are no longer based on guesses but on information and strategy.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 09 -->
+        <div class="timeline-item mb-24 relative" data-aos="fade-up">
+            <div class="timeline-dot"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-0 md:text-right">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 09</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Inner Circle</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">Trusted members earn access to exclusive areas. Reputation, consistency, and contribution determine who advances.</p>
+            </div>
+        </div>
+
+        <!-- PHASE 10 -->
+        <div class="timeline-item mb-40 relative" data-aos="fade-up">
+            <div class="timeline-dot active"></div>
+            <div class="timeline-content md:w-[45%] ml-10 md:ml-auto">
+                <span class="text-red-600 font-mono text-[10px] tracking-widest uppercase">Phase 10</span>
+                <h3 class="text-2xl text-white gold-text italic mb-4">The Empire</h3>
+                <p class="text-gray-500 text-sm leading-relaxed italic">The small idea becomes a powerful digital ecosystem. Not through force—but through discipline, innovation, and long-term vision.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- THE FINAL LESSON -->
+    <div class="text-center py-20 border-y border-white/5 bg-red-950/5 mb-32">
+        <h2 class="text-white text-3xl uppercase tracking-[0.5em] mb-10 italic">The Final Lesson</h2>
+        <div class="space-y-4 font-serif text-xl italic text-gray-400">
+            <p>"Power is not given."</p>
+            <p>"Trust is not bought."</p>
+            <p>"Influence is not demanded."</p>
+            <p class="text-white mt-8 uppercase tracking-widest text-sm">They are built, one decision at a time.</p>
+        </div>
+    </div>
+
+    <!-- MAFIA ENDING IMAGE SECTION -->
+    <div class="text-center mb-40">
+        <div class="inline-block relative group">
+            <div class="absolute -inset-4 bg-red-600/10 blur-3xl group-hover:bg-red-600/20 transition duration-1000"></div>
+            <img 
+src="https://i.postimg.cc/59Trzt2V/file-00000000d43c720baa558298684abb26.png"
+class="relative w-80 h-96 object-cover border border-red-900/30 grayscale hover:grayscale-0 transition duration-700 mx-auto"
+/>
+            <h2 class="mt-8 text-5xl font-black text-white italic tracking-tighter">WHO-MAFIAS</h2>
+            <p class="text-red-700 font-mono text-[10px] tracking-[1em] uppercase mt-2">ANONYMOUS MAFIAS</p>
+        </div>
+    </div>
+
+    <!-- GLITCHY LOADING BAR -->
+    <div class="max-w-md mx-auto pb-32">
+        <div class="flex justify-between text-[8px] font-mono text-gray-600 uppercase mb-2 tracking-widest">
+            <span>System Integrity</span>
+            <span id="glitch-percent">0%</span>
+        </div>
+        <div class="h-[2px] w-full bg-gray-900 relative overflow-hidden">
+            <div id="glitch-bar" class="absolute top-0 left-0 h-full bg-red-700 shadow-[0_0_15px_#ff0000]"></div>
+        </div>
+        <p class="text-center mt-4 text-red-900 font-mono text-[7px] uppercase tracking-widest animate-pulse">Warning: Decrypting Final Layers...</p>
+    </div>
+
+</div>
+
+<style>
+    /* Timeline Dots */
+    .timeline-dot {
+        position: absolute;
+        left: 0; md:left: 50%;
+        top: 0;
+        width: 12px; height: 12px;
+        background: #222;
+        border: 2px solid #8b0000;
+        border-radius: 50%;
+        transform: translate(-50%, 0);
+        z-index: 2;
+    }
+    .timeline-dot.active {
+        background: #8b0000;
+        box-shadow: 0 0 15px #ff0000;
+        animation: pulseRed 2s infinite;
+    }
+    @keyframes pulseRed { 0% { transform: translate(-50%, 0) scale(1); } 50% { transform: translate(-50%, 0) scale(1.3); } 100% { transform: translate(-50%, 0) scale(1); } }
+    
+    /* Glitch Bar Animation handled by JS for specific control */
+</style>
+
+        <!-- 6. OPEN MARKET -->
+        <div id="open-market" class="sub-section hidden text-center">
+            
+        
+        </div>
+
+        <!-- 7. SIGNAL CHANNEL -->
+       <!-- ================= 7. SIGNAL CHANNEL (GREEN MAFIA THEME) ================= -->
+<div id="signal-channel" class="sub-section hidden font-mafia relative bg-[#020202]">
+    
+    <!-- Page Header -->
+    <header class="mb-20 border-b border-green-900/30 pb-10" data-aos="fade-down">
+       <h1 class="text-6xl md:text-8xl font-bold text-white italic uppercase tracking-tighter">Mafias<span class="text-[#00ff41] drop-shadow-[0_0_10px_#00ff41]">Broadcast</span></h1>
+        <p class="text-green-700 font-mono text-xs tracking-[0.6em] mt-4 uppercase animate-pulse">Frequency: 88.9 MHz // Encrypted Transmission</p>
+    </header>
+
+    <!-- 📢 ADMIN ANNOUNCEMENTS (2 Per Line) -->
+    <section class="mb-32">
+        <div class="flex items-center space-x-4 mb-12">
+            <div class="w-2 h-10 bg-[#00ff41]"></div>
+            <h2 class="text-3xl text-white uppercase italic">Mafias Announcements</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <!-- Announcement 01 -->
+            <div class="sc-ann-card bg-[#050505] border border-green-900/20 p-8 flex flex-col justify-between group hover:border-[#00ff41]/50 transition-all duration-500">
+                <div class="flex flex-row gap-6 mb-6">
+                    <div class="flex-1">
+                        <h4 class="text-[#00ff41] font-mono text-[10px] tracking-widest mb-2 uppercase">Protocol Update</h4>
+                        <h3 class="text-2xl text-white font-bold leading-tight mb-4">Encryption Layer 7.0 Deployment</h3>
+                        <p class="text-gray-500 text-[11px] italic font-serif">"The walls have ears, but our signals have ghosts."</p>
+                    </div>
+                    <div class="w-32 h-32 overflow-hidden border border-green-900/30">
+                        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                </div>
+                <div class="border-t border-green-900/10 pt-4">
+                    <span class="text-white text-[10px] font-bold tracking-widest uppercase block mb-2">Announcement:</span>
+                    <p class="text-gray-400 text-xs leading-relaxed">System-wide node migration starting at 0200 HRS. Ensure your biometric keys are synchronized with the local host.</p>
+                </div>
+            </div>
+
+            <!-- Announcement 02 -->
+            <div class="sc-ann-card bg-[#050505] border border-green-900/20 p-8 flex flex-col justify-between group hover:border-[#00ff41]/50 transition-all duration-500">
+                <div class="flex flex-row gap-6 mb-6">
+                    <div class="flex-1">
+                        <h4 class="text-[#00ff41] font-mono text-[10px] tracking-widest mb-2 uppercase">Expansion Note</h4>
+                        <h3 class="text-2xl text-white font-bold leading-tight mb-4">Asia-Pacific Node Active</h3>
+                        <p class="text-gray-500 text-[11px] italic font-serif">"Expanding the silence across the eastern borders."</p>
+                    </div>
+                    <div class="w-32 h-32 overflow-hidden border border-green-900/30">
+                        <img src="https://images.unsplash.com/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                </div>
+                <div class="border-t border-green-900/10 pt-4">
+                    <span class="text-white text-[10px] font-bold tracking-widest uppercase block mb-2">Announcement:</span>
+                    <p class="text-gray-400 text-xs leading-relaxed">High-Command has authorized the activation of 4 new underground servers in Tokyo and Seoul. Connection speed optimized.</p>
+                </div>
+            </div>
+
+            <!-- Announcement 03 -->
+            <div class="sc-ann-card bg-[#050505] border border-green-900/20 p-8 flex flex-col justify-between group hover:border-[#00ff41]/50 transition-all duration-500">
+                <div class="flex flex-row gap-6 mb-6">
+                    <div class="flex-1">
+                        <h4 class="text-[#00ff41] font-mono text-[10px] tracking-widest mb-2 uppercase">Market Alert</h4>
+                        <h3 class="text-2xl text-white font-bold leading-tight mb-4">New Asset Tiers Unlocked</h3>
+                        <p class="text-gray-500 text-[11px] italic font-serif">"Wealth is a whisper, power is a shadow."</p>
+                    </div>
+                    <div class="w-32 h-32 overflow-hidden border border-green-900/30">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e10?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                </div>
+                <div class="border-t border-green-900/10 pt-4">
+                    <span class="text-white text-[10px] font-bold tracking-widest uppercase block mb-2">Announcement:</span>
+                    <p class="text-gray-400 text-xs leading-relaxed">Verified Operatives now have access to high-tier digital assets. Check the Marketplace section for updated listings.</p>
+                </div>
+            </div>
+
+            <!-- Announcement 04 -->
+            <div class="sc-ann-card bg-[#050505] border border-green-900/20 p-8 flex flex-col justify-between group hover:border-[#00ff41]/50 transition-all duration-500">
+                <div class="flex flex-row gap-6 mb-6">
+                    <div class="flex-1">
+                        <h4 class="text-[#00ff41] font-mono text-[10px] tracking-widest mb-2 uppercase">Security Directive</h4>
+                        <h3 class="text-2xl text-white font-bold leading-tight mb-4">Zero Footprint Protocol</h3>
+                        <p class="text-gray-500 text-[11px] italic font-serif">"If you exist, you are failing the family."</p>
+                    </div>
+                    <div class="w-32 h-32 overflow-hidden border border-green-900/30">
+                        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&q=80&w=300" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700">
+                    </div>
+                </div>
+                <div class="border-t border-green-900/10 pt-4">
+                    <span class="text-white text-[10px] font-bold tracking-widest uppercase block mb-2">Announcement:</span>
+                    <p class="text-gray-400 text-xs leading-relaxed">All operatives must scrub their digital signatures before 2400 HRS. Failure to comply leads to biometric disconnection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 💹 MARKET NEWS (3 Per Line) -->
+    <section class="mb-32">
+        <div class="flex items-center space-x-4 mb-12">
+            <div class="w-2 h-10 bg-white"></div>
+            <h2 class="text-3xl text-white uppercase italic">Market News</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Row 1 -->
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1611974714658-058f40da61f9?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Crypto Influx</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">BTC volumes within the network have increased by 40%. Direct impact on asset valuation detected.</p>
+                </div>
+            </div>
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1551288049-bbbda536339a?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Market Raid</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">External platforms attempt penetration. Mafia firewall successfully repelled 1024 threats today.</p>
+                </div>
+            </div>
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1518186239751-f71a368b7ca4?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Node Stable</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">Pakistan Node reporting 100% uptime. All local transmissions are currently ghost-encrypted.</p>
+                </div>
+            </div>
+            <!-- Row 2 -->
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e10?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Intel Trade</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">Trading of Alpha-9 level intel has been authorized for Inner Circle members only.</p>
+                </div>
+            </div>
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Growth Flux</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">Network reach expanded by 12% in the last 48 hours. New operative nodes detected in UAE.</p>
+                </div>
+            </div>
+            <div class="sc-news-card bg-[#080808] border border-white/5 overflow-hidden group">
+                <div class="h-40 overflow-hidden"><img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=400" class="w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-all duration-700"></div>
+                <div class="p-6">
+                    <h4 class="text-[#00ff41] font-bold text-lg mb-3 uppercase italic">Final Report</h4>
+                    <p class="text-gray-500 text-[11px] leading-relaxed">Daily analytics conclude: Market dominance sustained. Reputation index at an all-time high.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 👤 MEMBER NOTIFICATIONS (5 Per Line - Shocking Green) -->
+    <section class="pb-40">
+        <div class="flex items-center space-x-4 mb-12">
+            <div class="w-2 h-10 bg-[#00ff41]"></div>
+            <h2 class="text-3xl text-white uppercase italic">Member Notifications</h2>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+            <!-- Member 1-10 -->
+            <div class="text-center group">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                   <img src="https://i.postimg.cc/L5m6mVgq/IMG-20260616-WA0003.jpg"
+class="w-full h-full max-h-40 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Vector Brother</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Welcome to the Who-Mafias NetWork</p>
+            </div>
+            <div class="text-center group">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                   <img src="https://i.postimg.cc/50p4sCjv/IMG-20260616-WA0006.jpg"
+class="w-full h-full max-h-40 object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Ghost Vector</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Welcome to the Who-Mafias NetWork</p>
+            </div>
+            <div class="text-center group">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=3" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Ghost-09</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Access Granted to Vault</p>
+            </div>
+            <div class="text-center group">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=4" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Spectre 7</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Initiate Profile Active</p>
+            </div>
+            <div class="text-center group">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=5" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Reaper Unit</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Signals Received</p>
+            </div>
+            <!-- Second Row -->
+            <div class="text-center group mt-4">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=6" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Don Luca</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Council Entry Verified</p>
+            </div>
+            <div class="text-center group mt-4">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=7" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Viper Operative</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Welcome to the Network</p>
+            </div>
+            <div class="text-center group mt-4">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=8" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Silent Hand</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Scrubbing Data Trace...</p>
+            </div>
+            <div class="text-center group mt-4">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=9" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Crypto Boss</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">Market Access Authorized</p>
+            </div>
+            <div class="text-center group mt-4">
+                <div class="h-40 w-full border-2 border-green-950 bg-[#001505] p-2 overflow-hidden group-hover:border-[#00ff41] transition duration-500">
+                    <img src="https://i.pravatar.cc/150?u=10" class="w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700">
+                </div>
+                <h5 class="text-white text-[11px] font-bold mt-3 uppercase tracking-widest">Enzo-R</h5>
+                <p class="text-[#00ff41] text-[8px] mt-1 font-mono uppercase">System Node Sync: OK</p>
+            </div>
+        </div>
+    </section>
+
+</div>
+<style>
+    /* SIGNAL CHANNEL EXCLUSIVE STYLES */
+    .sc-ann-card {
+        box-shadow: 0 5px 20px rgba(0,0,0,0.8);
+        transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .sc-news-card {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .sc-news-card:hover {
+        border-color: #00ff41;
+        transform: scale(1.02);
+    }
+</style>
+
+</div>
+
+</body>
+</html>
